@@ -12,7 +12,7 @@ describe Graphlient::Client do
     end
     it 'returns expected query with block' do
       graphql_post_request
-      Graphlient::Client.query do
+      Graphlient::Client.query('Authorization' => 'Bearer 1231', 'Content-Type' => 'application/json') do
         invoice(id: 10) do
           line_items
         end

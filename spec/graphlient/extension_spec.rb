@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'spec_helper'
 
-describe Graphlient::Extension do
+describe Graphlient::Extension::Query do
   describe 'Query' do
     include Graphlient::Extension::Query
 
