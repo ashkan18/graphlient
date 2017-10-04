@@ -1,5 +1,10 @@
+require 'net/http'
+require 'uri'
+require 'json'
+
 require 'graphlient/version'
 require 'graphlient/config.rb'
 require 'graphlient/extensions'
+require 'graphlient/errors'
 require 'graphlient/query'
 require 'graphlient/client'

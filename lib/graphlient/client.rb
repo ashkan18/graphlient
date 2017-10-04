@@ -1,7 +1,3 @@
-require 'net/http'
-require 'uri'
-require 'json'
-
 module Graphlient
   class Client
     attr_reader :uri
@@ -16,7 +12,9 @@ module Graphlient
       query = Graphlient::Query.new do
         instance_eval(&block)
       end
-      parse(post(query).body)
+      response = post(query)
+      raise Graphlient::Errors::HTTP.new(response.message, response) unless response.is_a? Net::HTTPSuccess
+      parse(response.body)
     end
 
     def connection
