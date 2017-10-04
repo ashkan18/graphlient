@@ -7,7 +7,7 @@ A Ruby Client for consuming GraphQL-based APIs.
 
 ## Installation
 
-Add following line to your Gemfile.
+Add the following line to your Gemfile.
 
 ```ruby
 gem 'graphlient'
@@ -22,7 +22,11 @@ There are 3 different ways to use this library.
 Create a new instance of `Graphlient::Client` and pass the query into a block.
 
 ```ruby
-client = Graphlient::Client.new('http://test-graphql.biz/graphql', headers: { 'Authorization' => 'Bearer 123'})
+client = Graphlient::Client.new('https://test-graphql.biz/graphql',
+  headers: {
+    'Authorization' => 'Bearer 123'
+  }
+)
 
 response = client.query do
   invoice(id: 10) do
@@ -48,6 +52,8 @@ invoice(id: 10) {
   }
 }
 ```
+
+The response is a JSON object.
 
 ### Use Graphlient::Query directly
 
