@@ -1,4 +1,7 @@
-# Graphlient ![](https://travis-ci.org/ashkan18/graphlient.svg?branch=master)
+# Graphlient
+
+[![Gem Version](https://badge.fury.io/rb/graphlient.svg)](https://badge.fury.io/rb/graphlient)
+[![Build Status](https://travis-ci.org/ashkan18/graphlient.svg?branch=master)](https://travis-ci.org/ashkan18/graphlient)
 
 A Ruby Client for consuming GraphQL-based APIs.
 
