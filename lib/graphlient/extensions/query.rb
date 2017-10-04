@@ -1,5 +1,5 @@
 module Graphlient
-  module Extension
+  module Extensions
     module Query
       def method_missing(m, *args, &block)
         Graphlient::Query.new do
