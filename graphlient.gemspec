@@ -4,7 +4,7 @@ $LOAD_PATH.push File.expand_path('../lib', __FILE__)
 require 'graphlient/version'
 
 Gem::Specification.new do |s|
-  s.name = 'Graphlient'
+  s.name = 'graphlient'
   s.version = Graphlient::VERSION
   s.authors = ['Ashkan Nasseri']
   s.email = 'ashkan.nasseri@gmail.com'
