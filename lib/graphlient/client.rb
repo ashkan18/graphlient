@@ -16,14 +16,24 @@ module Graphlient
       query = Graphlient::Query.new do
         instance_eval(&block)
       end
-      http = Net::HTTP.new(uri.host, uri.port)
+      parse(post(query).body)
+    end
+
+    def connection
+      @connection ||= Net::HTTP.new(uri.host, uri.port)
+    end
+
+    def post(query)
       request = Net::HTTP::Post.new(uri.request_uri)
       request.body = { query: query.to_s }.to_json
       options[:headers].each do |k, v|
         request[k] = v
       end
-      response = http.request(request)
-      JSON.parse(response.body, symbolize_names: true)
+      connection.request(request)
+    end
+
+    def parse(response)
+      JSON.parse(response, symbolize_names: true)
     end
   end
 end
