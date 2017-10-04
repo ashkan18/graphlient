@@ -5,11 +5,11 @@ require 'json'
 module Graphlient
   class Client
     attr_reader :uri
-    attr_reader :opts
+    attr_reader :options
 
-    def initialize(url, opts = {})
+    def initialize(url, options = {})
       @uri = URI(url)
-      @opts = opts.dup
+      @options = options.dup
     end
 
     def query(&block)
@@ -19,7 +19,7 @@ module Graphlient
       http = Net::HTTP.new(uri.host, uri.port)
       request = Net::HTTP::Post.new(uri.request_uri)
       request.body = { query: query.to_s }.to_json
-      opts[:headers].each do |k, v|
+      options[:headers].each do |k, v|
         request[k] = v
       end
       response = http.request(request)
