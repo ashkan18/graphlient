@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    Graphlient (0.0.1)
+    graphlient (0.0.1)
 
 GEM
   remote: http://rubygems.org/
@@ -52,8 +52,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  Graphlient!
   byebug
+  graphlient!
   rake
   rspec
   rspec-mocks
