@@ -1,4 +1,4 @@
-### 0.0.4 (Next)
+### 0.0.4 (10/4/2017)
 
 * [#8](https://github.com/ashkan18/graphlient/pull/8): Handle HTTP errors and raise `Graphlient::Errors::HTTP` on failure - [@dblock](https://github.com/dblock).
 * [#5](https://github.com/ashkan18/graphlient/pull/5): Added RuboCop, Ruby-style linter, CHANGELOG, CONTRIBUTING and RELEASING - [@dblock](https://github.com/dblock).
