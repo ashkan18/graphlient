@@ -53,7 +53,9 @@ invoice(id: 10) {
 }
 ```
 
-The response is a JSON object.
+A successful response is a JSON object.
+
+On failure the client raises `Graphlient::Errors::HTTP` which contains the `response` object.
 
 ### Use Graphlient::Query directly
 
