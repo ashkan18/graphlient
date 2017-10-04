@@ -1,4 +1,4 @@
-# Graphlient
+# Graphlient ![](https://travis-ci.org/ashkan18/graphlient.svg?branch=master)
 Ruby Client for consuming GraphQL based APIs.
 
 ## Installation
