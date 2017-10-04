@@ -46,7 +46,7 @@ This will call the endpoint setup in the configuration with `POST`, the `Authori
 invoice(id: 10) {
   id
   total
-  line_items{
+  line_items {
     price
     item_type
   }
