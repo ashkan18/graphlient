@@ -1,10 +1,13 @@
-# Graphlient ![](https://travis-ci.org/ashkan18/graphlient.svg?branch=master)
+# Graphlient
+
+[![Gem Version](https://badge.fury.io/rb/graphlient.svg)](https://badge.fury.io/rb/graphlient)
+[![Build Status](https://travis-ci.org/ashkan18/graphlient.svg?branch=master)](https://travis-ci.org/ashkan18/graphlient)
 
 A Ruby Client for consuming GraphQL-based APIs.
 
 ## Installation
 
-Add following line to your Gemfile.
+Add the following line to your Gemfile.
 
 ```ruby
 gem 'graphlient'
@@ -19,7 +22,11 @@ There are 3 different ways to use this library.
 Create a new instance of `Graphlient::Client` and pass the query into a block.
 
 ```ruby
-client = Graphlient::Client.new('http://test-graphql.biz/graphql', headers: { 'Authorization' => 'Bearer 123'})
+client = Graphlient::Client.new('https://test-graphql.biz/graphql',
+  headers: {
+    'Authorization' => 'Bearer 123'
+  }
+)
 
 response = client.query do
   invoice(id: 10) do
@@ -39,12 +46,14 @@ This will call the endpoint setup in the configuration with `POST`, the `Authori
 invoice(id: 10) {
   id
   total
-  line_items{
+  line_items {
     price
     item_type
   }
 }
 ```
+
+The response is a JSON object.
 
 ### Use Graphlient::Query directly
 
