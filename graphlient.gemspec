@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 $LOAD_PATH.push File.expand_path('../lib', __FILE__)
 
 require 'graphlient/version'
@@ -14,5 +13,5 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.homepage = 'http://github.com/ashkan18/graphlient'
   s.licenses = ['MIT']
-  s.summary = "Ruby Gem for consuming GraphQL endpoints"
+  s.summary = 'Ruby Gem for consuming GraphQL endpoints'
 end

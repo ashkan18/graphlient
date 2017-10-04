@@ -1,12 +1,12 @@
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
 gemspec
 
 gem 'rake'
 
 group :development do
-  gem 'rubocop', '~> 0.47.1', require: false
   gem 'byebug'
+  gem 'rubocop', '~> 0.47.1', require: false
 end
 
 group :test do

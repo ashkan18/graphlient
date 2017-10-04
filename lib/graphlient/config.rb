@@ -1,14 +1,9 @@
-# frozen_string_literal: true
 
 module Graphlient
   module Config
     extend self
 
-    attr_accessor :graphql_endpoint
-
-    def reset
-      self.graphql_endpoint = nil
-    end
+    def reset; end
 
     reset
   end
