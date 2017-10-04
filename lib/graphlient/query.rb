@@ -17,7 +17,7 @@ module Graphlient
     end
 
     def to_s
-      query_str
+      "{ #{query_str} }"
     end
 
     private

@@ -18,7 +18,7 @@ describe Graphlient::Client do
         end
       end
       expect(graphql_post_request.with(
-          body: { query: "\ninvoice(id: 10){\n  line_items\n  }\n" },
+          body: { query: "{ \ninvoice(id: 10){\n  line_items\n  }\n }" },
           headers: { 'Content-Type' => 'application/json'})
       ).to have_been_made.once
     end

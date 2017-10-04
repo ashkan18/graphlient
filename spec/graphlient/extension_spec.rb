@@ -9,7 +9,7 @@ describe Graphlient::Extension::Query do
       query = invoice(id: 10) do
         line_items
       end
-      expect( query.to_s ).to eq("\ninvoice(id: 10){\n  line_items\n  }\n")
+      expect( query.to_s ).to eq("{ \ninvoice(id: 10){\n  line_items\n  }\n }")
     end
   end
 end
