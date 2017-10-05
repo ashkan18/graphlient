@@ -2,6 +2,8 @@
 
 * Your contribution here.
 
+* [#11](https://github.com/ashkan18/graphlient/pull/11): Fix issue with argument types - [@ashkan18](https://github.com/ashkan18).
+
 ### 0.0.4 (10/4/2017)
 
 * [#8](https://github.com/ashkan18/graphlient/pull/8): Handle HTTP errors and raise `Graphlient::Errors::HTTP` on failure - [@dblock](https://github.com/dblock).
