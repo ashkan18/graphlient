@@ -26,7 +26,20 @@ describe Graphlient::Query do
           line_items(name: 'test')
         end
       end
-      expect(query.to_s).to eq "{ \ninvoice(id: 10){\n  line_items(name: test)\n  }\n }"
+      expect(query.to_s).to eq "{ \ninvoice(id: 10){\n  line_items(name: \"test\")\n  }\n }"
+    end
+
+    it 'returns expected query with block and local variables with proper type' do
+      int_arg = 10
+      float_arg = 10.3
+      str_arg = 'new name'
+      array_arg = ['str_item', 2]
+      query = Graphlient::Query.new do
+        invoice(id: int_arg, threshold: float_arg, item_list: array_arg) do
+          line_items(name: str_arg)
+        end
+      end
+      expect(query.to_s).to eq "{ \ninvoice(id: 10, threshold: 10.3, item_list: [\"str_item\", 2]){\n  line_items(name: \"new name\")\n  }\n }"
     end
   end
 end

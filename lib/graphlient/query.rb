@@ -44,7 +44,22 @@ module Graphlient
     end
 
     def get_args_str(args)
-      args.detect { |arg| arg.is_a? Hash }.map { |k, v| "#{k}: #{v}" }.join(',')
+      args.detect { |arg| arg.is_a? Hash }.map do |k, v|
+        "#{k}: #{get_arg_value_str(v)}"
+      end.join(', ')
+    end
+
+    def get_arg_value_str(value)
+      case value
+      when String
+        "\"#{value}\""
+      when Numeric
+        value.to_s
+      when Array
+        "[#{value.map { |v| get_arg_value_str(v) }.join(', ')}]"
+      else
+        value
+      end
     end
   end
 end
