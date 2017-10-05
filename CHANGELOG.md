@@ -1,8 +1,6 @@
-### 0.0.5 (Next)
+### 0.0.5 (10/5/2017)
 
-* Your contribution here.
-
-* [#11](https://github.com/ashkan18/graphlient/pull/11): Fix issue with argument types - [@ashkan18](https://github.com/ashkan18).
+* [#11](https://github.com/ashkan18/graphlient/pull/11): Fixed query argument types - [@ashkan18](https://github.com/ashkan18).
 
 ### 0.0.4 (10/4/2017)
 
