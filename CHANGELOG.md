@@ -1,3 +1,7 @@
+### 0.0.6 (Next)
+
+* Your contribution here.
+
 ### 0.0.5 (10/5/2017)
 
 * [#11](https://github.com/ashkan18/graphlient/pull/11): Fixed query argument types - [@ashkan18](https://github.com/ashkan18).
