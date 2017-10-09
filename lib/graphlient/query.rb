@@ -5,6 +5,7 @@ module Graphlient
     def initialize(&block)
       @indents = 0
       @query_str = ''
+      @skip_curly_wrapper = false
       instance_eval(&block)
     end
 
@@ -17,16 +18,16 @@ module Graphlient
     end
 
     def to_s
-      "{ #{query_str} }"
+      @skip_curly_wrapper ? query_str : "{ #{query_str} }"
     end
 
     private
 
     def append(query_field, args, &block)
       # add field
-      @query_str << "\n#{indent}#{query_field}"
+      @query_str << "\n#{indent}#{query_field}#{get_non_param_arg(args)}"
       # add filter
-      @query_str << "(#{get_args_str(args)})" if args.any?
+      @query_str << "(#{get_args_str(args)})" if hash_args(args)
 
       if block_given?
         @indents += 1
@@ -44,9 +45,20 @@ module Graphlient
     end
 
     def get_args_str(args)
-      args.detect { |arg| arg.is_a? Hash }.map do |k, v|
+      hash_args(args).map do |k, v|
         "#{k}: #{get_arg_value_str(v)}"
       end.join(', ')
+    end
+
+    def hash_args(args)
+      args.detect { |arg| arg.is_a? Hash }
+    end
+
+    def get_non_param_arg(args)
+      non_param_arg = args.detect { |arg| arg.is_a? Symbol }.to_s
+      return if non_param_arg.empty?
+      @skip_curly_wrapper = true
+      " #{non_param_arg}"
     end
 
     def get_arg_value_str(value)

@@ -89,6 +89,25 @@ query.to_s
 # "\nquery{\n  invoice(id: 10){\n    line_items\n    }\n  }\n"
 ```
 
+# Examples
+
+## Named query
+You can use named queries by passing the name as a symbol:
+```ruby
+
+query = Graphlient::Query.new do
+        query(:invoice) do
+          invoice(id: 10) do
+            line_items do
+              line_item_type
+            end
+          end
+        end
+      end
+query.to_s
+"\nquery invoice{\n  invoice(id: 10){\n    line_items{\n      line_item_type\n      }\n    }\n  }\n"
+```
+
 ## License
 
 MIT License, see [LICENSE](LICENSE)
