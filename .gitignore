@@ -9,7 +9,8 @@
 /test/tmp/
 /test/version_tmp/
 /tmp/
-
+.byebug_history
+.DS_Store
 # Used by dotenv library to load environment variables.
 # .env
 
