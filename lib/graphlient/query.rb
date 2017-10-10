@@ -16,7 +16,7 @@ module Graphlient
         @indents += 1
         instance_eval(&block)
         @indents -= 1
-        @query_str << "}"
+        @query_str << '}'
       end
     end
 
