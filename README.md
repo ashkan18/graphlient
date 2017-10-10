@@ -85,8 +85,10 @@ You can include `Graphlient::Extensions::Query` in your class. This will add a n
 ```ruby
 include Graphlient::Extensions::Query
 
-query = invoice(id: 10) do
-  line_items
+query = query(:invoices) do
+  invoice(id: 10) do
+    line_items
+  end
 end
 
 query.to_s
