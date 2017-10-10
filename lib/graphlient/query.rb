@@ -11,8 +11,8 @@ module Graphlient
     end
 
     ACTIONS.each do |action|
-      define_method(action.to_sym) do |name, &block|
-        @query_str << "#{action} #{name.capitalize}{"
+      define_method(action.to_sym) do |&block|
+        @query_str << "#{action}{"
         @indents += 1
         instance_eval(&block)
         @indents -= 1

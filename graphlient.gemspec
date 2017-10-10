@@ -14,4 +14,6 @@ Gem::Specification.new do |s|
   s.homepage = 'http://github.com/ashkan18/graphlient'
   s.licenses = ['MIT']
   s.summary = 'Ruby Gem for consuming GraphQL endpoints'
+  s.add_dependency 'graphql-client'
+  s.add_dependency 'faraday'
 end

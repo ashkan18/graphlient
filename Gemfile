@@ -12,5 +12,6 @@ end
 group :test do
   gem 'rspec'
   gem 'rspec-mocks'
+  gem 'graphql'
   gem 'webmock'
 end

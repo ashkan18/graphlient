@@ -1,37 +1,35 @@
+require "graphql/client"
+require "graphlient/adapters/faraday_adapter"
+
 module Graphlient
+  class Error < StandardError; end
   class Client
     attr_reader :uri
     attr_reader :options
 
     def initialize(url, options = {})
-      @uri = URI(url)
       @options = options.dup
+      http = Adapters::FaradayAdapter.new(url, headers: @options[:headers])
+      # Fetch latest schema on init, this will make a network request
+      schema = GraphQL::Client.load_schema(http)
+      # However, it's smart to dump this to a JSON file and load from disk
+      #
+      # Run it from a script or rake task
+      #   GraphQL::Client.dump_schema(SWAPI::HTTP, "path/to/schema.json")
+      #
+      # Schema = GraphQL::Client.load_schema("path/to/schema.json")
+      @client = GraphQL::Client.new(schema: schema, execute: http)
+      @client.allow_dynamic_queries = true
     end
 
     def query(&block)
-      query = Graphlient::Query.new do
+      query_str = Graphlient::Query.new do
         instance_eval(&block)
       end
-      response = post(query)
-      raise Graphlient::Errors::HTTP.new(response.message, response) unless response.is_a? Net::HTTPSuccess
-      parse(response.body)
-    end
-
-    def connection
-      @connection ||= Net::HTTP.new(uri.host, uri.port)
-    end
-
-    def post(query)
-      request = Net::HTTP::Post.new(uri.request_uri)
-      request.body = { query: query.to_s }.to_json
-      options[:headers].each do |k, v|
-        request[k] = v
-      end
-      connection.request(request)
-    end
-
-    def parse(response)
-      JSON.parse(response, symbolize_names: true)
+      parsed_query = @client.parse(query_str.to_s)
+      @client.query(parsed_query, context: @options)
+    rescue GraphQL::Client::Error => e
+      raise Graphlient::Error.new(e.message)
     end
   end
 end
