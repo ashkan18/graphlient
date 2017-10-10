@@ -2,11 +2,22 @@ module Graphlient
   class Query
     attr_accessor :query_str
 
+    ACTIONS = %w(query mutation subscription fragment).freeze
+
     def initialize(&block)
       @indents = 0
       @query_str = ''
-      @skip_curly_wrapper = false
       instance_eval(&block)
+    end
+
+    ACTIONS.each do |action|
+      define_method(action.to_sym) do |name, &block|
+        @query_str << "#{action} #{name.capitalize}{"
+        @indents += 1
+        instance_eval(&block)
+        @indents -= 1
+        @query_str << "}"
+      end
     end
 
     def method_missing(m, *args, &block)
@@ -18,14 +29,14 @@ module Graphlient
     end
 
     def to_s
-      @skip_curly_wrapper ? query_str : "{ #{query_str} }"
+      query_str
     end
 
     private
 
     def append(query_field, args, &block)
       # add field
-      @query_str << "\n#{indent}#{query_field}#{get_non_param_arg(args)}"
+      @query_str << "\n#{indent}#{query_field}"
       # add filter
       @query_str << "(#{get_args_str(args)})" if hash_args(args)
 
@@ -52,13 +63,6 @@ module Graphlient
 
     def hash_args(args)
       args.detect { |arg| arg.is_a? Hash }
-    end
-
-    def get_non_param_arg(args)
-      non_param_arg = args.detect { |arg| arg.is_a? Symbol }.to_s
-      return if non_param_arg.empty?
-      @skip_curly_wrapper = true
-      " #{non_param_arg}"
     end
 
     def get_arg_value_str(value)

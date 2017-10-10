@@ -12,8 +12,10 @@ describe Graphlient::Client do
   describe '#query' do
     let(:response) do
       graphql_client.query do
-        invoice(id: 10) do
-          line_items
+        query(:invoice) do
+          invoice(id: 10) do
+            line_items
+          end
         end
       end
     end
@@ -22,7 +24,7 @@ describe Graphlient::Client do
       it 'returns expected query with block' do
         expect(response).to eq({})
         expect(graphql_post_request.with(
-                 body: { query: "{ \ninvoice(id: 10){\n  line_items\n  }\n }" },
+                 body: { query: "query Invoice{\n  invoice(id: 10){\n    line_items\n    }\n  }" },
                  headers: { 'Content-Type' => 'application/json' }
         )).to have_been_made.once
       end
