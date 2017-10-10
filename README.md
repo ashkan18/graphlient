@@ -15,7 +15,7 @@ gem 'graphlient'
 
 ## Usage
 
-There are 3 different ways to use this library.
+Graphlient always uses named queries, which means you need to start your query definition with using `query` which gets a symbol for query name as argument and a block for actual query definition. There are 3 different ways to use this library.
 
 ### Graphlient::Client
 
@@ -29,12 +29,14 @@ client = Graphlient::Client.new('https://test-graphql.biz/graphql',
 )
 
 response = client.query do
-  invoice(id: 10) do
-    id
-    total
-    line_items do
-      price
-      item_type
+  query(:invoices) do
+    invoice(id: 10) do
+      id
+      total
+      line_items do
+        price
+        item_type
+      end
     end
   end
 end
@@ -43,12 +45,14 @@ end
 This will call the endpoint setup in the configuration with `POST`, the `Authorization` header and `query` as
 
 ```graphql
-invoice(id: 10) {
-  id
-  total
-  line_items {
-    price
-    item_type
+query Invoices{
+  invoice(id: 10) {
+    id
+    total
+    line_items {
+      price
+      item_type
+    }
   }
 }
 ```
@@ -63,7 +67,7 @@ You can directly use `Graphlient::Query` to generate GraphQL queries. Example:
 
 ```ruby
 query = Graphlient::Query.new do
-  query do
+  query(:invoices) do
     invoice(id: 10) do
       line_items
     end
@@ -71,7 +75,7 @@ query = Graphlient::Query.new do
 end
 
 query.to_s
-# "\nquery{\n  invoice(id: 10){\n    line_items\n    }\n  }\n"
+# "\nquery Invoices{\n  invoice(id: 10){\n    line_items\n    }\n  }\n"
 ```
 
 ### Use Graphlient::Extension::Query
@@ -87,25 +91,6 @@ end
 
 query.to_s
 # "\nquery{\n  invoice(id: 10){\n    line_items\n    }\n  }\n"
-```
-
-# Examples
-
-## Named query
-You can use named queries by passing the name as a symbol:
-```ruby
-
-query = Graphlient::Query.new do
-        query(:invoice) do
-          invoice(id: 10) do
-            line_items do
-              line_item_type
-            end
-          end
-        end
-      end
-query.to_s
-"\nquery invoice{\n  invoice(id: 10){\n    line_items{\n      line_item_type\n      }\n    }\n  }\n"
 ```
 
 ## License
