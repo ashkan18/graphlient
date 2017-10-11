@@ -38,7 +38,7 @@ describe Graphlient::Client do
               end
             end
           end
-        end.to raise_error Graphlient::Error do |e|
+        end.to raise_error Graphlient::Errors::Client do |e|
           expect(e.to_s).to eq "Field 'invoice' doesn't exist on type 'RootQuery'"
         end
       end

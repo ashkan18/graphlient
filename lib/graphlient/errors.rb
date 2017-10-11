@@ -1,2 +1,1 @@
-require_relative 'errors/error'
-require_relative 'errors/http'
+require_relative 'errors/client'

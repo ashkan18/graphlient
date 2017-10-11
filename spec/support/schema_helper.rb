@@ -12,7 +12,7 @@ RootQuery = GraphQL::ObjectType.define do
   field :invoices, types[InvoiceType] do
     argument :ids, types[types.ID]
     description 'Find Invoices'
-    resolve lambda { |_obj, args, _ctx| }
+    resolve ->(_obj, args, _ctx) {}
   end
 end
 
