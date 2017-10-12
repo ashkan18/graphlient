@@ -16,4 +16,5 @@ Gem::Specification.new do |s|
   s.summary = 'Ruby Gem for consuming GraphQL endpoints'
   s.add_dependency 'graphql-client'
   s.add_dependency 'faraday'
+  s.add_dependency 'faraday_middleware'
 end

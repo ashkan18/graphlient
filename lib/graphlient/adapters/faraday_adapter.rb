@@ -1,4 +1,5 @@
 require 'faraday'
+require 'faraday_middleware'
 
 module Graphlient
   module Adapters
@@ -12,14 +13,14 @@ module Graphlient
 
       def execute(document:, operation_name:, variables:, context:)
         response = conn.post do |req|
-          req.headers['Content-Type'] = 'application/json'
+          context[:headers].each { |k, v| req.headers[k] = v } if context[:headers]
           req.body = {
             query: document.to_query_string,
             operationName: operation_name,
             variables: variables.to_json
           }.to_json
         end
-        JSON.parse(response.body)
+        response.body
       rescue Faraday::ClientError => e
         { 'errors' => [{ 'message' => "#{e.response[:status]} #{e.response[:body]}" }] }
       end
@@ -30,6 +31,8 @@ module Graphlient
         @conn ||= Faraday.new(url: @url, headers: @headers) do |c|
           c.use Faraday::Response::RaiseError
           c.use Faraday::Adapter::NetHttp
+          c.request :json
+          c.response :json
         end
       end
     end
