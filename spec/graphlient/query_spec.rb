@@ -64,5 +64,29 @@ describe Graphlient::Query do
         expect(query.to_s).to eq "query{\n  invoice(id: 10){\n    line_items{\n      line_item_type\n      }\n    }\n  }"
       end
     end
+
+    context 'mutation' do
+      it 'returns proper mutation with arguments' do
+        mutation = Graphlient::Query.new do
+          mutation do
+            invoice(type: 'test', fee_in_cents: 20_000, total_cents: 50_000, line_items: %w(li1 li2)) do
+              id
+            end
+          end
+        end
+        expect(mutation.to_s).to eq "mutation{\n  invoice(type: \"test\", fee_in_cents: 20000, total_cents: 50000, line_items: [\"li1\", \"li2\"]){\n    id\n    }\n  }"
+      end
+    end
+
+    it 'returns proper mutation for relay style mutation' do
+      mutation = Graphlient::Query.new do
+        mutation do
+          invoice(input: { type: 'test', fee_in_cents: 20_000, total_cents: 50_000, line_items: %w(li1 li2) }) do
+            id
+          end
+        end
+      end
+      expect(mutation.to_s).to eq "mutation{\n  invoice(input: { type: \"test\", fee_in_cents: 20000, total_cents: 50000, line_items: [\"li1\", \"li2\"] }){\n    id\n    }\n  }"
+    end
   end
 end
