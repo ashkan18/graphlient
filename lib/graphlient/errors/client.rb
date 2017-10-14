@@ -1,10 +1,10 @@
 module Graphlient
   module Errors
     class Client < StandardError
-      attr_reader :root_error
-      def initialize(message, root_error = nil)
+      attr_reader :inner_exception
+      def initialize(message, inner_exception = nil)
         super(message)
-        @root_error = root_error
+        @inner_exception = inner_exception
       end
     end
   end

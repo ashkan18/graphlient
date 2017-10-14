@@ -15,7 +15,7 @@ gem 'graphlient'
 
 ## Usage
 
-You need to start your query definition with using `query` which gets a block for actual query definition. There are 3 different ways to use this library.
+Start a query definition with `query` which gets a block for actual query definition. There are 3 different ways to use this library.
 
 ### Graphlient::Client
 
@@ -57,11 +57,11 @@ query {
 }
 ```
 
-It will validate the query based on current schema. In case of validation errors or any other connection related issues you'll get `Graphlient::Errors::Client` describing the error.
+Graphlient validates the query based on current schema. In case of validation errors or any other connection related issues you'll get `Graphlient::Errors::Client` describing the error.
 
-On success you get a response object and you can access `data` and iterate over results. In example above we can access first line item's price by:
+The response object contains data which can be iterated upon. The following example returns the first line item's price.
 ```ruby
-response.data.invoice&.line_items.first&.price
+response.data.invoice.line_items.first&.price
 ```
 
 ### Use Graphlient::Query directly

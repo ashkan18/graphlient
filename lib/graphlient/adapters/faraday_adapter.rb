@@ -8,12 +8,12 @@ module Graphlient
 
       def initialize(url, headers: {})
         @url = url
-        @headers = headers
+        @headers = headers.dup
       end
 
       def execute(document:, operation_name:, variables:, context:)
         response = conn.post do |req|
-          context[:headers].each { |k, v| req.headers[k] = v } if context[:headers]
+          req.headers.merge!(context[:headers] || {})
           req.body = {
             query: document.to_query_string,
             operationName: operation_name,
