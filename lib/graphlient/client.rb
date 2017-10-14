@@ -1,37 +1,41 @@
+require 'graphql/client'
+require 'graphlient/adapters/faraday_adapter'
+
 module Graphlient
   class Client
-    attr_reader :uri
-    attr_reader :options
+    attr_accessor :uri, :options
 
     def initialize(url, options = {})
-      @uri = URI(url)
+      @url = url
       @options = options.dup
     end
 
     def query(&block)
-      query = Graphlient::Query.new do
+      query_str = Graphlient::Query.new do
         instance_eval(&block)
       end
-      response = post(query)
-      raise Graphlient::Errors::HTTP.new(response.message, response) unless response.is_a? Net::HTTPSuccess
-      parse(response.body)
+      parsed_query = client.parse(query_str.to_s)
+      client.allow_dynamic_queries = true
+      client.query(parsed_query, context: @options)
+    rescue GraphQL::Client::Error => e
+      raise Graphlient::Errors::Client.new(e.message, e)
     end
 
-    def connection
-      @connection ||= Net::HTTP.new(uri.host, uri.port)
-    end
+    private
 
-    def post(query)
-      request = Net::HTTP::Post.new(uri.request_uri)
-      request.body = { query: query.to_s }.to_json
-      options[:headers].each do |k, v|
-        request[k] = v
+    def client
+      @client ||= begin
+        http = Adapters::FaradayAdapter.new(@url, headers: @options[:headers])
+        # Fetch latest schema on init, this will make a network request
+        schema = GraphQL::Client.load_schema(http)
+        # However, it's smart to dump this to a JSON file and load from disk
+        #
+        # Run it from a script or rake task
+        #   GraphQL::Client.dump_schema(SWAPI::HTTP, "path/to/schema.json")
+        #
+        # Schema = GraphQL::Client.load_schema("path/to/schema.json")
+        @client = GraphQL::Client.new(schema: schema, execute: http)
       end
-      connection.request(request)
-    end
-
-    def parse(response)
-      JSON.parse(response, symbolize_names: true)
     end
   end
 end

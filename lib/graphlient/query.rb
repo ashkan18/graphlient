@@ -11,8 +11,8 @@ module Graphlient
     end
 
     ACTIONS.each do |action|
-      define_method(action.to_sym) do |name, &block|
-        @query_str << "#{action} #{name.capitalize}{"
+      define_method(action.to_sym) do |&block|
+        @query_str << "#{action}{"
         @indents += 1
         instance_eval(&block)
         @indents -= 1
@@ -38,7 +38,7 @@ module Graphlient
       # add field
       @query_str << "\n#{indent}#{query_field}"
       # add filter
-      @query_str << "(#{get_args_str(args)})" if hash_args(args)
+      @query_str << "(#{get_args_str(args)})" if find_hash_arg(args)
 
       if block_given?
         @indents += 1
@@ -56,13 +56,15 @@ module Graphlient
     end
 
     def get_args_str(args)
-      hash_args(args).map do |k, v|
-        "#{k}: #{get_arg_value_str(v)}"
-      end.join(', ')
+      hash_args_str(find_hash_arg(args))
     end
 
-    def hash_args(args)
+    def find_hash_arg(args)
       args.detect { |arg| arg.is_a? Hash }
+    end
+
+    def hash_args_str(hash)
+      hash.map { |k, v| "#{k}: #{get_arg_value_str(v)}" }.join(', ')
     end
 
     def get_arg_value_str(value)
@@ -73,6 +75,8 @@ module Graphlient
         value.to_s
       when Array
         "[#{value.map { |v| get_arg_value_str(v) }.join(', ')}]"
+      when Hash
+        "{ #{hash_args_str(value)} }"
       else
         value
       end

@@ -10,6 +10,7 @@ group :development do
 end
 
 group :test do
+  gem 'graphql'
   gem 'rspec'
   gem 'rspec-mocks'
   gem 'webmock'

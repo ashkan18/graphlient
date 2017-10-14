@@ -15,11 +15,11 @@ gem 'graphlient'
 
 ## Usage
 
-Graphlient always uses named queries, which means you need to start your query definition with using `query` which gets a symbol for query name as argument and a block for actual query definition. There are 3 different ways to use this library.
+Start a query definition with `query` which gets a block for actual query definition. There are 3 different ways to use this library.
 
 ### Graphlient::Client
 
-Create a new instance of `Graphlient::Client` and pass the query into a block.
+Create a new instance of `Graphlient::Client` with uri and optional headers (we add `application/json` content type by default but can be overwriten) and pass the query into a block.
 
 ```ruby
 client = Graphlient::Client.new('https://test-graphql.biz/graphql',
@@ -29,7 +29,7 @@ client = Graphlient::Client.new('https://test-graphql.biz/graphql',
 )
 
 response = client.query do
-  query(:invoices) do
+  query do
     invoice(id: 10) do
       id
       total
@@ -45,7 +45,7 @@ end
 This will call the endpoint setup in the configuration with `POST`, the `Authorization` header and `query` as
 
 ```graphql
-query Invoices{
+query {
   invoice(id: 10) {
     id
     total
@@ -57,9 +57,12 @@ query Invoices{
 }
 ```
 
-A successful response is a JSON object.
+Graphlient validates the query based on current schema. In case of validation errors or any other connection related issues you'll get `Graphlient::Errors::Client` describing the error.
 
-On failure the client raises `Graphlient::Errors::HTTP` which contains the `response` object.
+The response object contains data which can be iterated upon. The following example returns the first line item's price.
+```ruby
+response.data.invoice.line_items.first&.price
+```
 
 ### Use Graphlient::Query directly
 
@@ -67,7 +70,7 @@ You can directly use `Graphlient::Query` to generate GraphQL queries. Example:
 
 ```ruby
 query = Graphlient::Query.new do
-  query(:invoices) do
+  query do
     invoice(id: 10) do
       line_items
     end
@@ -75,7 +78,7 @@ query = Graphlient::Query.new do
 end
 
 query.to_s
-# "\nquery Invoices{\n  invoice(id: 10){\n    line_items\n    }\n  }\n"
+# "\nquery {\n  invoice(id: 10){\n    line_items\n    }\n  }\n"
 ```
 
 ### Use Graphlient::Extension::Query
@@ -85,7 +88,7 @@ You can include `Graphlient::Extensions::Query` in your class. This will add a n
 ```ruby
 include Graphlient::Extensions::Query
 
-query = query(:invoices) do
+query = query do
   invoice(id: 10) do
     line_items
   end
