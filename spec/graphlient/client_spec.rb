@@ -64,13 +64,15 @@ describe Graphlient::Client do
     end
 
     describe 'failure' do
-      let!(:graphql_post_request) { stub_request(:post, 'http://graph.biz/graphql').to_return(status: [500, 'Internal Server Error']) }
+      let!(:graphql_post_request) do
+        stub_request(:post, 'http://graph.biz/graphql').to_return(status: 500)
+      end
 
       it 'fails with an exception' do
         expect do
           response
-        end.to raise_error KeyError do |e|
-          expect(e.to_s).to eq 'key not found: "data"'
+        end.to raise_error Graphlient::Errors::Client do |e|
+          expect(e.to_s).to eq 'the server responded with status 500'
         end
       end
     end

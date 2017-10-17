@@ -23,7 +23,7 @@ module Graphlient
         end
         response.body
       rescue Faraday::ClientError => e
-        { 'errors' => [{ 'message' => "#{e.response[:status]} #{e.response[:body]}" }] }
+        raise Graphlient::Errors::Client.new(e.message, e)
       end
 
       def connection
