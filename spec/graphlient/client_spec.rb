@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'support/schema_helper.rb'
 
 describe Graphlient::Client do
   let(:graphql_endpoint) { 'http://graph.biz/gprahql' }
@@ -24,8 +23,17 @@ describe Graphlient::Client do
     describe 'success' do
       let!(:graphql_post_schema_request) do
         stub_request(:post, 'http://graph.biz/gprahql').to_return(
-          { body: sample_schema },
-          { body: sample_response.to_json }
+          { body: DummySchema.to_json },
+          { body:   {
+            data: {
+              invoices: [
+                {
+                  id: '1231',
+                  fee_in_cents: 20_000
+                }
+              ]
+            }
+          }.to_json }
         )
       end
       it 'returns error for invalid schema' do

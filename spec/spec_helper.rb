@@ -6,5 +6,6 @@ require 'graphlient'
 require 'byebug'
 require 'webmock/rspec'
 
-RSpec.configure do |c|
+Dir[File.join(File.dirname(__FILE__), 'support', '**/*.rb')].each do |file|
+  require file
 end
