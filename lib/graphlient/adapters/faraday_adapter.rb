@@ -6,13 +6,14 @@ module Graphlient
     class FaradayAdapter
       attr_accessor :url, :headers
 
-      def initialize(url, headers: {})
+      def initialize(url, headers:, &_block)
         @url = url
-        @headers = headers.dup
+        @headers = headers.dup if headers
+        yield self if block_given?
       end
 
       def execute(document:, operation_name:, variables:, context:)
-        response = conn.post do |req|
+        response = connection.post do |req|
           req.headers.merge!(context[:headers] || {})
           req.body = {
             query: document.to_query_string,
@@ -25,14 +26,16 @@ module Graphlient
         { 'errors' => [{ 'message' => "#{e.response[:status]} #{e.response[:body]}" }] }
       end
 
-      private
-
-      def conn
-        @conn ||= Faraday.new(url: @url, headers: @headers) do |c|
+      def connection
+        @connection ||= Faraday.new(url: url, headers: headers) do |c|
           c.use Faraday::Response::RaiseError
-          c.use Faraday::Adapter::NetHttp
           c.request :json
           c.response :json
+          if block_given?
+            yield c
+          else
+            c.use Faraday::Adapter::NetHttp
+          end
         end
       end
     end
