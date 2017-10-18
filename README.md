@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/graphlient.svg)](https://badge.fury.io/rb/graphlient)
 [![Build Status](https://travis-ci.org/ashkan18/graphlient.svg?branch=master)](https://travis-ci.org/ashkan18/graphlient)
 
-A Ruby Client for consuming GraphQL-based APIs.
+A Ruby Client for consuming GraphQL-based APIs without all the messy strings.
 
 ## Installation
 
@@ -15,11 +15,7 @@ gem 'graphlient'
 
 ## Usage
 
-Start a query definition with `query` which gets a block for actual query definition. There are 3 different ways to use this library.
-
-### Graphlient::Client
-
-Create a new instance of `Graphlient::Client` with uri and optional headers (we add `application/json` content type by default but can be overwriten) and pass the query into a block.
+Create a new instance of `Graphlient::Client` with a URL and optional headers.
 
 ```ruby
 client = Graphlient::Client.new('https://test-graphql.biz/graphql',
@@ -27,7 +23,17 @@ client = Graphlient::Client.new('https://test-graphql.biz/graphql',
     'Authorization' => 'Bearer 123'
   }
 )
+```
 
+The schema is available automatically via `.schema`.
+
+```ruby
+client.schema # GraphQL::Schema
+```
+
+Make queries with `query`, which gets a block for the query definition.
+
+```ruby
 response = client.query do
   query do
     invoice(id: 10) do
@@ -42,7 +48,7 @@ response = client.query do
 end
 ```
 
-This will call the endpoint setup in the configuration with `POST`, the `Authorization` header and `query` as
+This will call the endpoint setup in the configuration with `POST`, the `Authorization` header and `query` as follows.
 
 ```graphql
 query {
@@ -65,9 +71,9 @@ A successful response object always contains data which can be iterated upon. Th
 response.data.invoice.line_items.first.price
 ```
 
-### Use Graphlient::Query directly
+### Generate Queries with Graphlient::Query
 
-You can directly use `Graphlient::Query` to generate GraphQL queries. Example:
+You can directly use `Graphlient::Query` to generate GraphQL queries.
 
 ```ruby
 query = Graphlient::Query.new do
@@ -82,7 +88,7 @@ query.to_s
 # "\nquery {\n  invoice(id: 10){\n    line_items\n    }\n  }\n"
 ```
 
-### Use Graphlient::Extension::Query
+### Create API Client Classes with Graphlient::Extension::Query
 
 You can include `Graphlient::Extensions::Query` in your class. This will add a new `method_missing` method to your context which will be used to generate GraphQL queries.
 
@@ -99,7 +105,7 @@ query.to_s
 # "\nquery{\n  invoice(id: 10){\n    line_items\n    }\n  }\n"
 ```
 
-### Testing with Graphlient
+### Testing with Graphlient and RSpec
 
 Use Graphlient inside your RSpec tests in a Rails application or with `Rack::Test`, no more messy HTTP POSTs.
 
