@@ -4,6 +4,7 @@
 * [#17](https://github.com/ashkan18/graphlient/pull/17): Enable customizing of Faraday middleware - [@dblock](https://github.com/dblock).
 * [#14](https://github.com/ashkan18/graphlient/pull/14): Switch to `graphql-client` for network calls and schema validation - [@ashkan18](https://github.com/ashkan18).
 * [#13](https://github.com/ashkan18/graphlient/pull/13): Support named queries and make sure, this is braking change where we no longer support queries that don't start with `query` - [@ashkan18](https://github.com/ashkan18).
+* [#21](https://github.com/ashkan18/graphlient/pull/21): Added danger, PR linter - [@dblock](https://github.com/dblock).
 
 * Your contribution here.
 
