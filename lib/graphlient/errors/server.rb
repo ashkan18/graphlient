@@ -1,6 +1,6 @@
 module Graphlient
   module Errors
-    class Client < Error
+    class Server < Error
     end
   end
 end

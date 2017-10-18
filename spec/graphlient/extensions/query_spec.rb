@@ -4,7 +4,7 @@ describe Graphlient::Extensions::Query do
   describe 'Query' do
     include Graphlient::Extensions::Query
 
-    it 'returns proper query' do
+    it 'returns correct query' do
       query = query do
         invoice(id: 10) do
           line_items

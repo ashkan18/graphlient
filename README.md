@@ -57,11 +57,12 @@ query {
 }
 ```
 
-Graphlient validates the query based on current schema. In case of validation errors or any other connection related issues you'll get `Graphlient::Errors::Client` describing the error.
+Graphlient validates the query based on current schema. In case of validation errors or any other connection related issues you'll get `Graphlient::Errors::Client` describing the error and in case of transport errors, `Graphlient::Errors::Server`. Both inherit from `Graphlient::Errors::Error` if you need to handle them in bulk.
 
-The response object contains data which can be iterated upon. The following example returns the first line item's price.
+A successful response object always contains data which can be iterated upon. The following example returns the first line item's price.
+
 ```ruby
-response.data.invoice.line_items.first&.price
+response.data.invoice.line_items.first.price
 ```
 
 ### Use Graphlient::Query directly
@@ -96,6 +97,48 @@ end
 
 query.to_s
 # "\nquery{\n  invoice(id: 10){\n    line_items\n    }\n  }\n"
+```
+
+### Testing with Graphlient
+
+Use Graphlient inside your RSpec tests in a Rails application or with `Rack::Test`, no more messy HTTP POSTs.
+
+```ruby
+require 'spec_helper'
+
+describe App do
+  include Rack::Test::Methods
+
+  def app
+    # ...
+  end
+
+  let(:client) do
+    Graphlient::Client.new('http://test-graphql.biz/graphql') do |client|
+      client.http do |h|
+        h.connection do |c|
+          c.use Faraday::Adapter::Rack, app
+        end
+      end
+    end
+  end
+
+  context 'an invoice' do
+    let(:result) do
+      client.query do
+        query do
+          invoice(id: 10) do
+            id
+          end
+        end
+      end
+    end
+
+    it 'can be retrieved' do
+      expect(result.data.invoice.id).to eq 10
+    end
+  end
+end
 ```
 
 ## License
