@@ -6,7 +6,7 @@
 * [#21](https://github.com/ashkan18/graphlient/pull/21): Added danger, PR linter - [@dblock](https://github.com/dblock).
 * [#17](https://github.com/ashkan18/graphlient/pull/17): Enable customizing of Faraday middleware - [@dblock](https://github.com/dblock).
 * [#19](https://github.com/ashkan18/graphlient/pull/19): Expose `client.schema` - [@dblock](https://github.com/dblock).
-
+* [#20](https://github.com/ashkan18/graphlient/pull/20): Added support for parameterized queries and mutations - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.0.5 (10/5/2017)

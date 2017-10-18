@@ -9,11 +9,17 @@ before do
 end
 
 post '/graphql' do
-  headers['Content-Type'] = 'application/json'
-  DummySchema.execute(
-    params[:query],
-    variables: params[:variables] ? JSON.parse(params[:variables]) : {},
-    context: {},
-    operation_name: params[:operationName]
-  ).to_json
+  begin
+    headers['Content-Type'] = 'application/json'
+    DummySchema.execute(
+      params[:query],
+      variables: params[:variables] ? JSON.parse(params[:variables]) : {},
+      context: {},
+      operation_name: params[:operationName]
+    ).to_json
+  rescue StandardError => e
+    warn e
+    warn e.backtrace.join("\n")
+    raise e
+  end
 end
