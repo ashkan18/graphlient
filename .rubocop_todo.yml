@@ -11,7 +11,7 @@
 Metrics/BlockLength:
   Max: 82
 
-# Offense count: 14
+# Offense count: 13
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
 Metrics/LineLength:
@@ -21,14 +21,6 @@ Metrics/LineLength:
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
   Max: 12
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: braces, no_braces, context_dependent
-Style/BracesAroundHashParameters:
-  Exclude:
-    - 'spec/graphlient/client_spec.rb'
 
 # Offense count: 5
 Style/Documentation:
@@ -41,6 +33,14 @@ Style/Documentation:
     - 'lib/graphlient/extensions/query.rb'
     - 'lib/graphlient/query.rb'
 
+# Offense count: 1
+# Cop supports --auto-correct.
+# Configuration parameters: EnforcedStyle, SupportedStyles.
+# SupportedStyles: line_count_dependent, lambda, literal
+Style/Lambda:
+  Exclude:
+    - 'spec/support/queries/root_query.rb'
+
 # Offense count: 2
 Style/MethodMissing:
   Exclude:
@@ -50,4 +50,5 @@ Style/MethodMissing:
 # Offense count: 2
 Style/MultilineBlockChain:
   Exclude:
-    - 'spec/graphlient/client_spec.rb'
+    - 'spec/graphlient/client_query_spec.rb'
+    - 'spec/graphlient/client_schema_spec.rb'
