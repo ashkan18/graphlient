@@ -11,7 +11,10 @@ end
 
 group :test do
   gem 'graphql'
+  gem 'rack-parser'
+  gem 'rack-test'
   gem 'rspec'
   gem 'rspec-mocks'
+  gem 'sinatra'
   gem 'webmock'
 end
