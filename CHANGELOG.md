@@ -7,6 +7,7 @@
 * [#17](https://github.com/ashkan18/graphlient/pull/17): Enable customizing of Faraday middleware - [@dblock](https://github.com/dblock).
 * [#19](https://github.com/ashkan18/graphlient/pull/19): Expose `client.schema` - [@dblock](https://github.com/dblock).
 * [#20](https://github.com/ashkan18/graphlient/pull/20): Added support for parameterized queries and mutations - [@dblock](https://github.com/dblock).
+* [#25](https://github.com/ashkan18/graphlient/pull/25): Added `client.parse` and `client.execute` to parse and execute queries separately - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.0.5 (10/5/2017)

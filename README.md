@@ -120,6 +120,25 @@ client.query(input: { fee_in_cents: 12_345 }) do
 end
 ```
 
+### Parse and Execute Queries Separately
+
+You can `parse` and `execute` queries separately.
+
+```ruby
+# parse a query, returns a GraphQL::Client::OperationDefinition
+query = client.parse do
+  query(:$ids => :'[Int]') do
+    invoices(ids: :$ids) do
+      id
+      fee_in_cents
+    end
+  end
+end
+
+# execute a query, returns a GraphQL::Client::Response
+client.execute query, ids: [42]
+```
+
 ### Generate Queries with Graphlient::Query
 
 You can directly use `Graphlient::Query` to generate raw GraphQL queries.
