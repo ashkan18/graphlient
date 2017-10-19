@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/graphlient.svg)](https://badge.fury.io/rb/graphlient)
 [![Build Status](https://travis-ci.org/ashkan18/graphlient.svg?branch=master)](https://travis-ci.org/ashkan18/graphlient)
 
-A Ruby Client for consuming GraphQL-based APIs without all the messy strings.
+A much friendlier Ruby client for consuming GraphQL-based APIs, without all the messy strings. Built on top of your usual [graphql-client](https://github.com/github/graphql-client).
 
 ## Installation
 
@@ -31,7 +31,7 @@ The schema is available automatically via `.schema`.
 client.schema # GraphQL::Schema
 ```
 
-Make queries with `query`, which gets a block for the query definition.
+Make queries with `query`, which takes a block for the query definition.
 
 ```ruby
 response = client.query do
@@ -122,7 +122,8 @@ end
 
 ### Parse and Execute Queries Separately
 
-You can `parse` and `execute` queries separately.
+You can `parse` and `execute` queries separately with optional variables. This is highly recommended as parsing a query and validating a query on every request adds performance overhead. Parsing queries early allows validation errors to be discovered before request time and avoids many potential security issues.
+
 
 ```ruby
 # parse a query, returns a GraphQL::Client::OperationDefinition
@@ -138,6 +139,52 @@ end
 # execute a query, returns a GraphQL::Client::Response
 client.execute query, ids: [42]
 ```
+
+### Dynamic vs. Static Queries
+
+Graphlient uses [graphql-client](https://github.com/github/graphql-client), which [recommends](https://github.com/github/graphql-client/blob/master/guides/dynamic-query-error.md) building queries as static module members along with dynamic variables during execution. This can be accomplished with graphlient the same way.
+
+Create a new instance of `Graphlient::Client` with a URL and optional headers.
+
+```ruby
+module SWAPI
+  Client = Graphlient::Client.new('https://test-graphql.biz/graphql',
+    headers: {
+      'Authorization' => 'Bearer 123'
+    },
+    allow_dynamic_queries: false
+  )
+end
+```
+
+The schema is available automatically via `.schema`.
+
+```ruby
+SWAPI::Client.schema # GraphQL::Schema
+```
+
+Define a query.
+
+```ruby
+module SWAPI
+  InvoiceQuery = Client.parse do
+    query(:$id => :Int) do
+      invoice(id: :$id) do
+        id
+        fee_in_cents
+      end
+    end
+  end
+end
+```
+
+Execute the query.
+
+```ruby
+response = SWAPI::Client.execute(SWAPI::InvoiceQuery, id: 42)
+```
+
+Note that in the example above the client is created with `allow_dynamic_queries: false` (only allow static queries), while graphlient defaults to `allow_dynamic_queries: true` (allow dynamic queries). This option is marked deprecated, but we're proposing to remove it and default it to `true` in [graphql-client#128](https://github.com/github/graphql-client/issues/128).
 
 ### Generate Queries with Graphlient::Query
 
@@ -218,3 +265,4 @@ end
 ## License
 
 MIT License, see [LICENSE](LICENSE)
+
