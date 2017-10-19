@@ -6,6 +6,7 @@ gem 'rake'
 
 group :development do
   gem 'byebug'
+  gem 'danger-changelog', '~> 0.2.1'
   gem 'rubocop', '~> 0.47.1', require: false
 end
 
