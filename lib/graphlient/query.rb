@@ -2,22 +2,10 @@ module Graphlient
   class Query
     attr_accessor :query_str
 
-    ACTIONS = %w(query mutation subscription fragment).freeze
-
     def initialize(&block)
       @indents = 0
       @query_str = ''
       instance_eval(&block)
-    end
-
-    ACTIONS.each do |action|
-      define_method(action.to_sym) do |&block|
-        @query_str << "#{action}{"
-        @indents += 1
-        instance_eval(&block)
-        @indents -= 1
-        @query_str << '}'
-      end
     end
 
     def method_missing(m, *args, &block)
@@ -29,7 +17,7 @@ module Graphlient
     end
 
     def to_s
-      query_str
+      query_str.strip
     end
 
     private

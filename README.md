@@ -71,9 +71,58 @@ A successful response object always contains data which can be iterated upon. Th
 response.data.invoice.line_items.first.price
 ```
 
+You can also execute mutations the same way.
+
+```ruby
+response = client.query do
+  mutation do
+    createInvoice(input: { fee_in_cents: 12_345 }) do
+      id
+      fee_in_cents
+    end
+  end
+end
+```
+
+The successful response contains data in `response.data`. The following example returns the newly created invoice's ID.
+
+```ruby
+response.data.create_invoice.first.id
+```
+
+### Executing Parameterized Queries and Mutations
+
+Graphlient can execute parameterized queries and mutations by providing variables as query parameters.
+
+The following query accepts an array of IDs.
+
+```ruby
+client.query(ids: [42]) do
+  query(:$ids => :'[Int]') do
+    invoices(ids: :$ids) do
+      id
+      fee_in_cents
+    end
+  end
+end
+```
+
+The following mutation accepts a custom type that requires `fee_in_cents`.
+
+```ruby
+client.query(input: { fee_in_cents: 12_345 }) do
+  mutation(:$input => :createInvoiceInput!) do
+    createInvoice(input: :$input) do
+      id
+      fee_in_cents
+    end
+  end
+end
+```
+
 ### Generate Queries with Graphlient::Query
 
-You can directly use `Graphlient::Query` to generate GraphQL queries.
+You can directly use `Graphlient::Query` to generate raw GraphQL queries.
 
 ```ruby
 query = Graphlient::Query.new do

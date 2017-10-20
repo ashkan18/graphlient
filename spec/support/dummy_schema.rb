@@ -1,7 +1,9 @@
-require_relative 'queries/root_query'
 require_relative 'types/invoice_type'
 
+require_relative 'queries/query'
+require_relative 'mutations/mutation'
+
 DummySchema = GraphQL::Schema.define do
-  query RootQuery
-  max_depth 5
+  query Query
+  mutation Mutation
 end
