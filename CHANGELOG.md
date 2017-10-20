@@ -1,4 +1,4 @@
-### 0.0.6 (Next)
+### 0.0.6 (10/20/2017)
 
 * [#14](https://github.com/ashkan18/graphlient/pull/14): Switch to `graphql-client` for network calls and schema validation - [@ashkan18](https://github.com/ashkan18).
 * [#17](https://github.com/ashkan18/graphlient/pull/17): Specialize server errors as `Graphlient::Errors::Server` - [@dblock](https://github.com/dblock).
@@ -8,7 +8,6 @@
 * [#19](https://github.com/ashkan18/graphlient/pull/19): Expose `client.schema` - [@dblock](https://github.com/dblock).
 * [#20](https://github.com/ashkan18/graphlient/pull/20): Added support for parameterized queries and mutations - [@dblock](https://github.com/dblock).
 * [#25](https://github.com/ashkan18/graphlient/pull/25): Added `client.parse` and `client.execute` to parse and execute queries separately - [@dblock](https://github.com/dblock).
-* Your contribution here.
 
 ### 0.0.5 (10/5/2017)
 

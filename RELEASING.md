@@ -24,7 +24,7 @@ Remove the line with "Your contribution here.", since there will be no more cont
 Commit your changes.
 
 ```
-git add README.md CHANGELOG.md
+git add CHANGELOG.md
 git commit -m "Preparing for release, 0.2.2."
 git push origin master
 ```
