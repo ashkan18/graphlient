@@ -1,3 +1,7 @@
+### 0.0.7 (Next)
+
+* Your contribution here.
+
 ### 0.0.6 (10/20/2017)
 
 * [#14](https://github.com/ashkan18/graphlient/pull/14): Switch to `graphql-client` for network calls and schema validation - [@ashkan18](https://github.com/ashkan18).
