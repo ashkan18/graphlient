@@ -11,16 +11,24 @@ module Graphlient
       yield self if block_given?
     end
 
-    def query(variables = nil, &block)
+    def parse(&block)
       query_str = Graphlient::Query.new do
         instance_eval(&block)
       end
-      parsed_query = client.parse(query_str.to_s)
-      client.allow_dynamic_queries = true
+      client.parse(query_str.to_s)
+    end
+
+    def execute(query, variables = nil)
       query_params = {}
       query_params[:context] = @options if @options
       query_params[:variables] = variables if variables
-      client.query(parsed_query, query_params)
+      client.query(query, query_params)
+    rescue GraphQL::Client::Error => e
+      raise Graphlient::Errors::Client.new(e.message, e)
+    end
+
+    def query(variables = nil, &block)
+      execute(parse(&block), variables)
     rescue GraphQL::Client::Error => e
       raise Graphlient::Errors::Client.new(e.message, e)
     end
@@ -36,7 +44,9 @@ module Graphlient
     private
 
     def client
-      @client ||= GraphQL::Client.new(schema: schema, execute: http)
+      @client ||= GraphQL::Client.new(schema: schema, execute: http).tap do |client|
+        client.allow_dynamic_queries = @options.key?(:allow_dynamic_queries) ? options[:allow_dynamic_queries] : true
+      end
     end
   end
 end

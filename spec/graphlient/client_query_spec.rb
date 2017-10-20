@@ -3,6 +3,61 @@ require 'spec_helper'
 describe Graphlient::Client do
   include_context 'Dummy Client'
 
+  describe 'parse and execute' do
+    context 'non-parameterized query' do
+      let(:query) do
+        client.parse do
+          query do
+            invoices(ids: [10]) do
+              id
+              fee_in_cents
+            end
+          end
+        end
+      end
+
+      it '#parse' do
+        expect(query).to be_a GraphQL::Client::OperationDefinition
+      end
+
+      it '#execute' do
+        response = client.execute(query)
+        invoices = response.data.invoices
+        expect(invoices.first.id).to eq 10
+      end
+    end
+
+    context 'parameterized query' do
+      let(:query) do
+        client.parse do
+          query(:$ids => :'[Int]') do
+            invoices(ids: :$ids) do
+              id
+              fee_in_cents
+            end
+          end
+        end
+      end
+
+      it '#parse' do
+        expect(query).to be_a GraphQL::Client::OperationDefinition
+      end
+
+      it '#execute' do
+        response = client.execute(query, ids: [42])
+        invoices = response.data.invoices
+        expect(invoices.first.id).to eq 42
+        expect(invoices.first.fee_in_cents).to eq 20_000
+      end
+
+      it '#execute without variables' do
+        response = client.execute(query)
+        invoices = response.data.invoices
+        expect(invoices).to eq([])
+      end
+    end
+  end
+
   describe '#query' do
     context 'non-parameterized query' do
       it 'fails client-side on invalid schema' do
