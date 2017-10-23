@@ -22,13 +22,18 @@ module Graphlient
       query_params = {}
       query_params[:context] = @options if @options
       query_params[:variables] = variables if variables
+      query = client.parse(query) if query.is_a?(String)
       client.query(query, query_params)
     rescue GraphQL::Client::Error => e
       raise Graphlient::Errors::Client.new(e.message, e)
     end
 
-    def query(variables = nil, &block)
-      execute(parse(&block), variables)
+    def query(query_or_variables = nil, variables = nil, &block)
+      if block_given?
+        execute(parse(&block), query_or_variables)
+      else
+        execute(query_or_variables, variables)
+      end
     rescue GraphQL::Client::Error => e
       raise Graphlient::Errors::Client.new(e.message, e)
     end

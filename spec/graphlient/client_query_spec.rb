@@ -56,6 +56,26 @@ describe Graphlient::Client do
         expect(invoices).to eq([])
       end
     end
+
+    context 'parameterized GRAPHQL query' do
+      let(:query) do
+        <<-GRAPHQL
+          query($ids: [Int]) {
+            invoices(ids: $ids) {
+              id
+              fee_in_cents
+            }
+          }
+        GRAPHQL
+      end
+
+      it '#execute' do
+        response = client.execute(query, ids: [42])
+        invoices = response.data.invoices
+        expect(invoices.first.id).to eq 42
+        expect(invoices.first.fee_in_cents).to eq 20_000
+      end
+    end
   end
 
   describe '#query' do
@@ -84,6 +104,21 @@ describe Graphlient::Client do
             end
           end
         end
+
+        invoices = response.data.invoices
+        expect(invoices.first.id).to eq 10
+        expect(invoices.first.fee_in_cents).to eq 20_000
+      end
+
+      it 'returns a response from a GRAPHQL query' do
+        response = client.query <<~GRAPHQL
+          query {
+            invoices(ids: [10]) {
+              id
+              fee_in_cents
+            }
+          }
+        GRAPHQL
 
         invoices = response.data.invoices
         expect(invoices.first.id).to eq 10

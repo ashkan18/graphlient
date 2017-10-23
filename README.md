@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/graphlient.svg)](https://badge.fury.io/rb/graphlient)
 [![Build Status](https://travis-ci.org/ashkan18/graphlient.svg?branch=master)](https://travis-ci.org/ashkan18/graphlient)
 
-A much friendlier Ruby client for consuming GraphQL-based APIs, without all the messy strings. Built on top of your usual [graphql-client](https://github.com/github/graphql-client).
+A friendlier Ruby client for consuming GraphQL-based APIs. Built on top of your usual [graphql-client](https://github.com/github/graphql-client), but with better defaults, and using the [faraday](https://github.com/lostisland/faraday) HTTP client.
 
 ## Installation
 
@@ -31,7 +31,26 @@ The schema is available automatically via `.schema`.
 client.schema # GraphQL::Schema
 ```
 
-Make queries with `query`, which takes a block for the query definition.
+Make queries with `query`, which takes a String or a block for the query definition.
+
+With a String.
+
+```ruby
+response = client.query <<~GRAPHQL
+  query {
+    invoice(id: 10) {
+      id
+      total
+      line_items {
+        price
+        item_type
+      }
+    }
+  }
+GRAPHQL
+```
+
+With a block.
 
 ```ruby
 response = client.query do
@@ -95,6 +114,24 @@ response.data.create_invoice.first.id
 Graphlient can execute parameterized queries and mutations by providing variables as query parameters.
 
 The following query accepts an array of IDs.
+
+With a String.
+
+```ruby
+query = <<-GRAPHQL
+  query($ids: [Int]) {
+    invoices(ids: $ids) {
+      id
+      fee_in_cents
+    }
+  }
+GRAPHQL
+variables = { ids: [42] }
+
+client.query(query, variables)
+```
+
+With a block.
 
 ```ruby
 client.query(ids: [42]) do
