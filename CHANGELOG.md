@@ -1,3 +1,7 @@
+### 0.0.8 (Next)
+
+* Your contribution here.
+
 ### 0.0.7 (10/24/2017)
 
 * [#26](https://github.com/ashkan18/graphlient/pull/26): Support String queries - [@dblock](https://github.com/dblock).
