@@ -34,7 +34,7 @@ module Graphlient
            else
              execute(query_or_variables, variables)
       end
-      raise Graphlient::Errors::GraphQL, rc.errors if rc.errors.any?
+      raise Graphlient::Errors::GraphQL, rc if rc.errors.any?
       rc
     rescue GraphQL::Client::Error => e
       raise Graphlient::Errors::Client.new(e.message, e)

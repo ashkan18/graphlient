@@ -1,11 +1,15 @@
 module Graphlient
   module Errors
     class GraphQL < Error
-      attr_reader :errors
+      attr_reader :response
 
-      def initialize(errors)
-        @errors = errors
+      def initialize(response)
+        @response = response
         super 'the server responded with a GraphQL error'
+      end
+
+      def errors
+        response.errors
       end
 
       def to_s
