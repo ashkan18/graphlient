@@ -29,11 +29,13 @@ module Graphlient
     end
 
     def query(query_or_variables = nil, variables = nil, &block)
-      if block_given?
-        execute(parse(&block), query_or_variables)
-      else
-        execute(query_or_variables, variables)
+      rc = if block_given?
+             execute(parse(&block), query_or_variables)
+           else
+             execute(query_or_variables, variables)
       end
+      raise Graphlient::Errors::GraphQL, rc.errors if rc.errors.any?
+      rc
     rescue GraphQL::Client::Error => e
       raise Graphlient::Errors::Client.new(e.message, e)
     end

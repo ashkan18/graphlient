@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/graphlient.svg)](https://badge.fury.io/rb/graphlient)
 [![Build Status](https://travis-ci.org/ashkan18/graphlient.svg?branch=master)](https://travis-ci.org/ashkan18/graphlient)
 
-A friendlier Ruby client for consuming GraphQL-based APIs. Built on top of your usual [graphql-client](https://github.com/github/graphql-client), but with better defaults, and using the [faraday](https://github.com/lostisland/faraday) HTTP client.
+A friendlier Ruby client for consuming GraphQL-based APIs. Built on top of your usual [graphql-client](https://github.com/github/graphql-client), but with better defaults, more consistent error handling, and using the [faraday](https://github.com/lostisland/faraday) HTTP client.
 
 ## Installation
 
@@ -82,8 +82,6 @@ query {
 }
 ```
 
-Graphlient validates the query based on current schema. In case of validation errors or any other connection related issues you'll get `Graphlient::Errors::Client` describing the error and in case of transport errors, `Graphlient::Errors::Server`. Both inherit from `Graphlient::Errors::Error` if you need to handle them in bulk.
-
 A successful response object always contains data which can be iterated upon. The following example returns the first line item's price.
 
 ```ruby
@@ -108,6 +106,16 @@ The successful response contains data in `response.data`. The following example 
 ```ruby
 response.data.create_invoice.first.id
 ```
+
+### Error Handling
+
+Unlike graphql-client, Graphlient will always raise an exception unless the query has succeeded.
+
+* [Graphlient::Errors::Client](lib/graphlient/errors/client.rb): all client-side query validation failures based on current schema
+* [Graphlient::Errors::GraphQL](lib/graphlient/errors/graphql.rb): all GraphQL API errors, with a humanly readable collection of problems
+* [Graphlient::Errors::Server](lib/graphlient/errors/server.rb): all transport errors raised by Faraday
+
+All errors inherit from `Graphlient::Errors::Error` if you need to handle them in bulk.
 
 ### Executing Parameterized Queries and Mutations
 
