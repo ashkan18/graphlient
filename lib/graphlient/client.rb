@@ -1,6 +1,3 @@
-require 'graphql/client'
-require 'graphlient/adapters/faraday_adapter'
-
 module Graphlient
   class Client
     attr_accessor :uri, :options
@@ -40,8 +37,12 @@ module Graphlient
       end
     end
 
+    def http_adapter_class
+      options[:http] || Adapters::HTTP::FaradayAdapter
+    end
+
     def http(&block)
-      @http ||= Adapters::FaradayAdapter.new(@url, headers: @options[:headers], &block)
+      @http ||= http_adapter_class.new(@url, headers: @options[:headers], &block)
     end
 
     def schema

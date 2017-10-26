@@ -78,7 +78,7 @@ describe Graphlient::Client do
 
       it 'fails when wrong input type' do
         expect do
-          rc = client.execute(query, ids: ['42'])
+          client.execute(query, ids: ['42'])
         end.to raise_error Graphlient::Errors::GraphQL do |e|
           expect(e.to_s).to eq "Variable ids of type [Int] was provided invalid value\n  0: Could not coerce value \"42\" to Int"
         end
