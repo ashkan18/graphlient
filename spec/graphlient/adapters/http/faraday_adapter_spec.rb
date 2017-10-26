@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Graphlient::Adapters::FaradayAdapter do
+describe Graphlient::Adapters::HTTP::FaradayAdapter do
   let(:app) { Object.new }
 
   context 'with a custom middleware' do
@@ -39,6 +39,22 @@ describe Graphlient::Adapters::FaradayAdapter do
 
     it 'sets headers' do
       expect(client.http.headers).to eq headers
+    end
+  end
+
+  context 'default' do
+    let(:url) { 'http://example.com/graphql' }
+    let(:client) { Graphlient::Client.new(url) }
+
+    before do
+      stub_request(:post, url).to_return(
+        status: 200,
+        body: DummySchema.execute(GraphQL::Introspection::INTROSPECTION_QUERY).to_json
+      )
+    end
+
+    it 'retrieves schema' do
+      expect(client.schema).to be_a GraphQL::Schema
     end
   end
 end

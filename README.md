@@ -265,9 +265,19 @@ query.to_s
 # "\nquery{\n  invoice(id: 10){\n    line_items\n    }\n  }\n"
 ```
 
+### Swapping the HTTP Stack
+
+You can swap the default Faraday adapter for `Net::HTTP`.
+
+```ruby
+client = Graphlient::Client.new('https://test-graphql.biz/graphql',
+  http: Graphlient::Adapters::HTTP::HTTPAdapter
+)
+```
+
 ### Testing with Graphlient and RSpec
 
-Use Graphlient inside your RSpec tests in a Rails application or with `Rack::Test`, no more messy HTTP POSTs.
+Use Graphlient inside your RSpec tests in a Rails application or with `Rack::Test` against your actual application.
 
 ```ruby
 require 'spec_helper'
@@ -303,6 +313,26 @@ describe App do
     it 'can be retrieved' do
       expect(result.data.invoice.id).to eq 10
     end
+  end
+end
+```
+
+Alternately you can `stub_request` with Webmock.
+
+```ruby
+describe App do
+  let(:url) { 'http://example.com/graphql' }
+  let(:client) { Graphlient::Client.new(url) }
+
+  before do
+    stub_request(:post, url).to_return(
+      status: 200,
+      body: DummySchema.execute(GraphQL::Introspection::INTROSPECTION_QUERY).to_json
+    )
+  end
+
+  it 'retrieves schema' do
+    expect(client.schema).to be_a GraphQL::Schema
   end
 end
 ```

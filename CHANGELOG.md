@@ -1,6 +1,7 @@
 ### 0.0.9 (Next)
 
 * [#28](https://github.com/ashkan18/graphlient/pull/28): Raise errors in `execute`, not only `query` - [@dblock](https://github.com/dblock).
+* [#29](https://github.com/ashkan18/graphlient/pull/29): Added `Graphlient::Adapters::HTTP::HTTPAdapter` that replaces Faraday with `Net::HTTP` - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.0.8 (10/26/2017)
