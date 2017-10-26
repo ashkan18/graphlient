@@ -143,20 +143,17 @@ describe Graphlient::Client do
 
     context 'parameterized query' do
       it 'fails when missing input' do
-        response = client.query do
-          mutation('$input' => :createInvoiceInput!) do
-            createInvoice(input: :$input) do
-              id
-              fee_in_cents
+        expect do
+          client.query do
+            mutation('$input' => :createInvoiceInput!) do
+              createInvoice(input: :$input) do
+                id
+                fee_in_cents
+              end
             end
           end
-        end
-
-        expect(response.errors.messages['data']).to eq(
-          [
-            'Variable input of type createInvoiceInput! was provided invalid value'
-          ]
-        )
+        end.to raise_error Graphlient::Errors::GraphQL,
+                           "Variable input of type createInvoiceInput! was provided invalid value\n  : Expected value to not be null"
       end
 
       it 'returns a response from a query' do
@@ -187,6 +184,20 @@ describe Graphlient::Client do
         invoice = response.data.create_invoice.first
         expect(invoice.id).to eq 1231
         expect(invoice.fee_in_cents).to eq 12_345
+      end
+
+      it 'fails when mutation missing a field' do
+        expect do
+          client.query(input: {}) do
+            mutation(:$input => :createInvoiceInput!) do
+              createInvoice(input: :$input) do
+                id
+                fee_in_cents
+              end
+            end
+          end
+        end.to raise_error Graphlient::Errors::GraphQL,
+                           "Variable input of type createInvoiceInput! was provided invalid value\n  fee_in_cents: Expected value to not be null"
       end
     end
   end
