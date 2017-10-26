@@ -1,7 +1,6 @@
-### 0.0.8 (Next)
+### 0.0.8 (10/26/2017)
 
 * [#27](https://github.com/ashkan18/graphlient/pull/27): Always raise an exception unless a query has succeeded - [@dblock](https://github.com/dblock).
-* Your contribution here.
 
 ### 0.0.7 (10/24/2017)
 
