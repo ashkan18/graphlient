@@ -1,5 +1,6 @@
 ### 0.0.9 (Next)
 
+* [#28](https://github.com/ashkan18/graphlient/pull/28): Raise errors in `execute`, not only `query` - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.0.8 (10/26/2017)

@@ -75,6 +75,14 @@ describe Graphlient::Client do
         expect(invoices.first.id).to eq 42
         expect(invoices.first.fee_in_cents).to eq 20_000
       end
+
+      it 'fails when wrong input type' do
+        expect do
+          rc = client.execute(query, ids: ['42'])
+        end.to raise_error Graphlient::Errors::GraphQL do |e|
+          expect(e.to_s).to eq "Variable ids of type [Int] was provided invalid value\n  0: Could not coerce value \"42\" to Int"
+        end
+      end
     end
   end
 

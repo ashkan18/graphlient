@@ -16,6 +16,8 @@ module Graphlient
         instance_eval(&block)
       end
       client.parse(query_str.to_s)
+    rescue GraphQL::Client::Error => e
+      raise Graphlient::Errors::Client.new(e.message, e)
     end
 
     def execute(query, variables = nil)
@@ -23,21 +25,19 @@ module Graphlient
       query_params[:context] = @options if @options
       query_params[:variables] = variables if variables
       query = client.parse(query) if query.is_a?(String)
-      client.query(query, query_params)
+      rc = client.query(query, query_params)
+      raise Graphlient::Errors::GraphQL, rc if rc.errors.any?
+      rc
     rescue GraphQL::Client::Error => e
       raise Graphlient::Errors::Client.new(e.message, e)
     end
 
     def query(query_or_variables = nil, variables = nil, &block)
-      rc = if block_given?
-             execute(parse(&block), query_or_variables)
-           else
-             execute(query_or_variables, variables)
+      if block_given?
+        execute(parse(&block), query_or_variables)
+      else
+        execute(query_or_variables, variables)
       end
-      raise Graphlient::Errors::GraphQL, rc if rc.errors.any?
-      rc
-    rescue GraphQL::Client::Error => e
-      raise Graphlient::Errors::Client.new(e.message, e)
     end
 
     def http(&block)
