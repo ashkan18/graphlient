@@ -1,7 +1,6 @@
-### 0.1.0 (Next)
+### 0.1.0 (10/27/2017)
 
 * [#31](https://github.com/ashkan18/graphlient/issues/31): Fix: catch execution errors that don't contain field names - [@dblock](https://github.com/dblock).
-* Your contribution here.
 
 ### 0.0.9 (10/26/2017)
 
