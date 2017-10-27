@@ -1,6 +1,6 @@
 module Graphlient
   module Errors
-    class GraphQL < Error
+    class GraphQLError < Error
       attr_reader :response
 
       def initialize(response)

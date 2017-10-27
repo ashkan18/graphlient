@@ -79,8 +79,17 @@ describe Graphlient::Client do
       it 'fails when wrong input type' do
         expect do
           client.execute(query, ids: ['42'])
-        end.to raise_error Graphlient::Errors::GraphQL do |e|
+        end.to raise_error Graphlient::Errors::GraphQLError do |e|
           expect(e.to_s).to eq "Variable ids of type [Int] was provided invalid value\n  0: Could not coerce value \"42\" to Int"
+        end
+      end
+
+      it 'fails on an execution error' do
+        expect do
+          allow(OpenStruct).to receive(:new).and_raise StandardError, 'Unexpected error.'
+          client.execute(query, ids: [42])
+        end.to raise_error Graphlient::Errors::ExecutionError do |e|
+          expect(e.to_s).to eq 'invoices: Unexpected error.'
         end
       end
     end
@@ -98,7 +107,7 @@ describe Graphlient::Client do
               end
             end
           end
-        end.to raise_error Graphlient::Errors::Client do |e|
+        end.to raise_error Graphlient::Errors::ClientError do |e|
           expect(e.to_s).to eq "Field 'invoice' doesn't exist on type 'Query'"
         end
       end
@@ -160,7 +169,7 @@ describe Graphlient::Client do
               end
             end
           end
-        end.to raise_error Graphlient::Errors::GraphQL,
+        end.to raise_error Graphlient::Errors::GraphQLError,
                            "Variable input of type createInvoiceInput! was provided invalid value\n  : Expected value to not be null"
       end
 
@@ -204,7 +213,7 @@ describe Graphlient::Client do
               end
             end
           end
-        end.to raise_error Graphlient::Errors::GraphQL,
+        end.to raise_error Graphlient::Errors::GraphQLError,
                            "Variable input of type createInvoiceInput! was provided invalid value\n  fee_in_cents: Expected value to not be null"
       end
     end

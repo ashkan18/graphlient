@@ -1,4 +1,5 @@
 require_relative 'errors/error'
-require_relative 'errors/client'
-require_relative 'errors/server'
-require_relative 'errors/graphql'
+require_relative 'errors/client_error'
+require_relative 'errors/server_error'
+require_relative 'errors/graphql_error'
+require_relative 'errors/execution_error'

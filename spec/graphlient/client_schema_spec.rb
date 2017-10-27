@@ -11,7 +11,7 @@ describe Graphlient::Client do
     it 'fails with an exception' do
       expect do
         client.schema
-      end.to raise_error Graphlient::Errors::Server do |e|
+      end.to raise_error Graphlient::Errors::ServerError do |e|
         expect(e.to_s).to eq 'the server responded with status 500'
       end
     end

@@ -111,9 +111,10 @@ response.data.create_invoice.first.id
 
 Unlike graphql-client, Graphlient will always raise an exception unless the query has succeeded.
 
-* [Graphlient::Errors::Client](lib/graphlient/errors/client.rb): all client-side query validation failures based on current schema
-* [Graphlient::Errors::GraphQL](lib/graphlient/errors/graphql.rb): all GraphQL API errors, with a humanly readable collection of problems
-* [Graphlient::Errors::Server](lib/graphlient/errors/server.rb): all transport errors raised by Faraday
+* [Graphlient::Errors::ClientError](lib/graphlient/errors/client_error.rb): all client-side query validation failures based on current schema
+* [Graphlient::Errors::GraphQLError](lib/graphlient/errors/graphql_error.rb): all GraphQL API errors, with a humanly readable collection of problems
+* [Graphlient::Errors::ExecutionError](lib/graphlient/errors/execution_error.rb): all GraphQL execution errors, with a humanly readable collection of problems
+* [Graphlient::Errors::ServerError](lib/graphlient/errors/server_error.rb): all transport errors raised by Faraday
 
 All errors inherit from `Graphlient::Errors::Error` if you need to handle them in bulk.
 
