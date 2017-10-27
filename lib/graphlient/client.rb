@@ -14,7 +14,7 @@ module Graphlient
       end
       client.parse(query_str.to_s)
     rescue GraphQL::Client::Error => e
-      raise Graphlient::Errors::Client.new(e.message, e)
+      raise Graphlient::Errors::ClientError.new(e.message, e)
     end
 
     def execute(query, variables = nil)
@@ -23,10 +23,13 @@ module Graphlient
       query_params[:variables] = variables if variables
       query = client.parse(query) if query.is_a?(String)
       rc = client.query(query, query_params)
-      raise Graphlient::Errors::GraphQL, rc if rc.errors.any?
+      raise Graphlient::Errors::GraphQLError, rc if rc.errors.any?
+      # see https://github.com/github/graphql-client/pull/132
+      # see https://github.com/exAspArk/graphql-errors/issues/2
+      raise Graphlient::Errors::ExecutionError, rc if rc.data && rc.data.errors && rc.data.errors.any?
       rc
     rescue GraphQL::Client::Error => e
-      raise Graphlient::Errors::Client.new(e.message, e)
+      raise Graphlient::Errors::ClientError.new(e.message, e)
     end
 
     def query(query_or_variables = nil, variables = nil, &block)

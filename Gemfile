@@ -12,6 +12,7 @@ end
 
 group :test do
   gem 'graphql'
+  gem 'graphql-errors'
   gem 'rack-parser'
   gem 'rack-test'
   gem 'rspec'
