@@ -154,9 +154,10 @@ end
 ```
 Graphlient supports following Scalar types for parameterized queries by default:
 - `:id` maps to `ID`
+- `:boolean` maps to `Boolean`
+- `:float` maps to `Float`
 - `:int` maps to `Int`
 - `:string` maps to `String`
-- `:boolean` maps to `Boolean`
 
 You can use any of the above types with `!` to make it required or use them in `[]` for array parameters.
 
