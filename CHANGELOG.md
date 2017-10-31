@@ -1,6 +1,7 @@
 ### 0.1.1 (Next)
 
 * Your contribution here.
+* [#33](https://github.com/ashkan18/graphlient/pull/33): Added dsl for supporting parametrized queries/mutations - [@ashkan18](https://github.com/ashkan18).
 
 ### 0.1.0 (10/27/2017)
 

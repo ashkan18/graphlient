@@ -30,8 +30,8 @@ describe Graphlient::Client do
     context 'parameterized query' do
       let(:query) do
         client.parse do
-          query(:$ids => :'[Int]') do
-            invoices(ids: :$ids) do
+          query(some_ids: [:int]) do
+            invoices(ids: :some_ids) do
               id
               fee_in_cents
             end
@@ -44,7 +44,7 @@ describe Graphlient::Client do
       end
 
       it '#execute' do
-        response = client.execute(query, ids: [42])
+        response = client.execute(query, some_ids: [42])
         invoices = response.data.invoices
         expect(invoices.first.id).to eq 42
         expect(invoices.first.fee_in_cents).to eq 20_000
@@ -162,8 +162,8 @@ describe Graphlient::Client do
       it 'fails when missing input' do
         expect do
           client.query do
-            mutation('$input' => :createInvoiceInput!) do
-              createInvoice(input: :$input) do
+            mutation(input: :createInvoiceInput!) do
+              createInvoice(input: :input) do
                 id
                 fee_in_cents
               end
@@ -175,8 +175,8 @@ describe Graphlient::Client do
 
       it 'returns a response from a query' do
         response = client.query(ids: [42]) do
-          query(:$ids => :'[Int]') do
-            invoices(ids: :$ids) do
+          query(ids: [:int]) do
+            invoices(ids: :ids) do
               id
               fee_in_cents
             end
@@ -190,8 +190,8 @@ describe Graphlient::Client do
 
       it 'executes the mutation' do
         response = client.query(input: { fee_in_cents: 12_345 }) do
-          mutation(:$input => :createInvoiceInput!) do
-            createInvoice(input: :$input) do
+          mutation(input: :createInvoiceInput!) do
+            createInvoice(input: :input) do
               id
               fee_in_cents
             end
@@ -206,8 +206,8 @@ describe Graphlient::Client do
       it 'fails when mutation missing a field' do
         expect do
           client.query(input: {}) do
-            mutation(:$input => :createInvoiceInput!) do
-              createInvoice(input: :$input) do
+            mutation(input: :createInvoiceInput!) do
+              createInvoice(input: :input) do
                 id
                 fee_in_cents
               end

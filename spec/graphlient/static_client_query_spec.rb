@@ -16,8 +16,8 @@ describe Graphlient::Client do
       end
 
       Query = Client.parse do
-        query(:$ids => :'[Int]') do
-          invoices(ids: :$ids) do
+        query(some_ids: [:int]) do
+          invoices(ids: :some_ids) do
             id
             fee_in_cents
           end
@@ -30,7 +30,7 @@ describe Graphlient::Client do
     end
 
     it '#execute' do
-      response = Graphlient::Client::Spec::Client.execute(Graphlient::Client::Spec::Query, ids: [42])
+      response = Graphlient::Client::Spec::Client.execute(Graphlient::Client::Spec::Query, some_ids: [42])
       invoices = response.data.invoices
       expect(invoices.first.id).to eq 42
       expect(invoices.first.fee_in_cents).to eq 20_000

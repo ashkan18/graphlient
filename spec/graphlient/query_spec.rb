@@ -51,7 +51,7 @@ describe Graphlient::Query do
         expect(query.to_s).to eq "query{\n  invoice(id: 10, threshold: 10.3, item_list: [\"str_item\", 2]){\n    line_items(name: \"new name\")\n    }\n  }"
       end
 
-      it 'returns proper query with query name' do
+      it 'returns proper query' do
         query = Graphlient::Query.new do
           query do
             invoice(id: 10) do
@@ -62,6 +62,19 @@ describe Graphlient::Query do
           end
         end
         expect(query.to_s).to eq "query{\n  invoice(id: 10){\n    line_items{\n      line_item_type\n      }\n    }\n  }"
+      end
+
+      it 'returns proper query with query variables' do
+        query = Graphlient::Query.new do
+          query(invoice_id: :int, names: [:string!]) do
+            invoice(id: :invoice_id, name: :names) do
+              line_items do
+                line_item_type
+              end
+            end
+          end
+        end
+        expect(query.to_s).to eq "query($invoice_id: Int, $names: [String!]){\n  invoice(id: $invoice_id, name: $names){\n    line_items{\n      line_item_type\n      }\n    }\n  }"
       end
     end
 

@@ -144,21 +144,31 @@ With a block.
 
 ```ruby
 client.query(ids: [42]) do
-  query(:$ids => :'[Int]') do
-    invoices(ids: :$ids) do
+  query(ids: [:int]) do
+    invoices(ids: :ids) do
       id
       fee_in_cents
     end
   end
 end
 ```
+Graphlient supports following Scalar types for parameterized queries by default:
+- `:id` maps to `ID`
+- `:boolean` maps to `Boolean`
+- `:float` maps to `Float`
+- `:int` maps to `Int`
+- `:string` maps to `String`
+
+You can use any of the above types with `!` to make it required or use them in `[]` for array parameters.
+
+For any other costume types, graphlient will simply use `to_s` of the symbol provided for the type, so `query(ids: [:InvoiceType!])` will result in `query($ids: [InvoiceType!])`.
 
 The following mutation accepts a custom type that requires `fee_in_cents`.
 
 ```ruby
 client.query(input: { fee_in_cents: 12_345 }) do
-  mutation(:$input => :createInvoiceInput!) do
-    createInvoice(input: :$input) do
+  mutation(input: :createInvoiceInput!) do
+    createInvoice(input: :input) do
       id
       fee_in_cents
     end
@@ -174,8 +184,8 @@ You can `parse` and `execute` queries separately with optional variables. This i
 ```ruby
 # parse a query, returns a GraphQL::Client::OperationDefinition
 query = client.parse do
-  query(:$ids => :'[Int]') do
-    invoices(ids: :$ids) do
+  query(ids: [:int]) do
+    invoices(ids: :ids) do
       id
       fee_in_cents
     end
@@ -214,8 +224,8 @@ Define a query.
 ```ruby
 module SWAPI
   InvoiceQuery = Client.parse do
-    query(:$id => :Int) do
-      invoice(id: :$id) do
+    query(id: :int) do
+      invoice(id: :id) do
         id
         fee_in_cents
       end
