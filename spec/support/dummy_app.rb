@@ -12,7 +12,7 @@ post '/graphql' do
   headers['Content-Type'] = 'application/json'
   DummySchema.execute(
     params[:query],
-    variables: params[:variables] ? JSON.parse(params[:variables]) : {},
+    variables: params[:variables] || {},
     context: {},
     operation_name: params[:operationName]
   ).to_json

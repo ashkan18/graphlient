@@ -11,7 +11,7 @@ module Graphlient
             req.body = {
               query: document.to_query_string,
               operationName: operation_name,
-              variables: variables.to_json
+              variables: variables
             }.to_json
           end
           response.body
