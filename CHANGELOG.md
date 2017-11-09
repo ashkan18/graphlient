@@ -1,8 +1,7 @@
-### 0.2.0 (Next)
+### 0.2.0 (11/09/2017)
 
 * [#33](https://github.com/ashkan18/graphlient/pull/33): Added dsl for supporting parametrized queries/mutations - [@ashkan18](https://github.com/ashkan18).
 * [#34](https://github.com/ashkan18/graphlient/issues/34): Fix: don't convert variables to `String` - [@dblock](https://github.com/dblock).
-* Your contribution here.
 
 ### 0.1.0 (10/27/2017)
 
