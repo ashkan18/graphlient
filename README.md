@@ -161,7 +161,7 @@ Graphlient supports following Scalar types for parameterized queries by default:
 
 You can use any of the above types with `!` to make it required or use them in `[]` for array parameters.
 
-For any other costume types, graphlient will simply use `to_s` of the symbol provided for the type, so `query(ids: [:InvoiceType!])` will result in `query($ids: [InvoiceType!])`.
+For any other custom types, graphlient will simply use `to_s` of the symbol provided for the type, so `query(ids: [:InvoiceType!])` will result in `query($ids: [InvoiceType!])`.
 
 The following mutation accepts a custom type that requires `fee_in_cents`.
 
