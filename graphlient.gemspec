@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.homepage = 'http://github.com/ashkan18/graphlient'
   s.licenses = ['MIT']
   s.summary = 'A friendlier Ruby client for consuming GraphQL-based APIs.'
-  s.add_dependency 'graphql-client'
   s.add_dependency 'faraday'
   s.add_dependency 'faraday_middleware'
+  s.add_dependency 'graphql-client'
 end

@@ -26,7 +26,7 @@ module Graphlient
       raise Graphlient::Errors::GraphQLError, rc if rc.errors.any?
       # see https://github.com/github/graphql-client/pull/132
       # see https://github.com/exAspArk/graphql-errors/issues/2
-      raise Graphlient::Errors::ExecutionError, rc if rc.data && rc.data.errors && rc.data.errors.any?
+      raise Graphlient::Errors::ExecutionError, rc if rc.data&.errors && rc.data.errors.any?
       rc
     rescue GraphQL::Client::Error => e
       raise Graphlient::Errors::ClientError.new(e.message, e)

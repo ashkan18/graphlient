@@ -82,7 +82,7 @@ describe Graphlient::Query do
       it 'returns proper mutation with arguments' do
         mutation = Graphlient::Query.new do
           mutation do
-            invoice(type: 'test', fee_in_cents: 20_000, total_cents: 50_000, line_items: %w(li1 li2)) do
+            invoice(type: 'test', fee_in_cents: 20_000, total_cents: 50_000, line_items: %w[li1 li2]) do
               id
             end
           end
@@ -94,7 +94,7 @@ describe Graphlient::Query do
     it 'returns proper mutation for relay style mutation' do
       mutation = Graphlient::Query.new do
         mutation do
-          invoice(input: { type: 'test', fee_in_cents: 20_000, total_cents: 50_000, line_items: %w(li1 li2) }) do
+          invoice(input: { type: 'test', fee_in_cents: 20_000, total_cents: 50_000, line_items: %w[li1 li2] }) do
             id
           end
         end

@@ -4,8 +4,6 @@ module Graphlient
   module Adapters
     module HTTP
       class HTTPAdapter < Adapter
-        attr_reader :uri
-
         def execute(document:, operation_name: nil, variables: {}, context: {})
           request = Net::HTTP::Post.new(url)
 

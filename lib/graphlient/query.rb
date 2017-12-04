@@ -7,7 +7,7 @@ module Graphlient
       boolean: 'Boolean'
     }.freeze
 
-    ROOT_NODES = %w(query mutation subscription).freeze
+    ROOT_NODES = %w[query mutation subscription].freeze
 
     attr_accessor :query_str
 
