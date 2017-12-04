@@ -7,7 +7,7 @@ gem 'rake'
 group :development do
   gem 'byebug'
   gem 'danger-changelog', '~> 0.2.1'
-  gem 'rubocop', '~> 0.47.1', require: false
+  gem 'rubocop', '~> 0.48', require: false
 end
 
 group :test do
