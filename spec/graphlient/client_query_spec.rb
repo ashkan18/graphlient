@@ -128,7 +128,7 @@ describe Graphlient::Client do
       end
 
       it 'returns a response from a GRAPHQL query' do
-        response = client.query <<~GRAPHQL
+        response = client.query <<-GRAPHQL
           query {
             invoices(ids: [10]) {
               id

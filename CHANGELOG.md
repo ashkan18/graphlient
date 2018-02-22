@@ -2,6 +2,7 @@
 
 * Your contribution here.
 * [#38](https://github.com/ashkan18/graphlient/pull/38): Add support for Ruby 2.5 - [@yuki24](https://github.com/yuki24).
+* [#39](https://github.com/ashkan18/graphlient/pull/39): Add support for Ruby 2.2 - [@yuki24](https://github.com/yuki24).
 
 ### 0.2.0 (11/09/2017)
 

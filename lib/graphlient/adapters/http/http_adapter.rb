@@ -9,7 +9,7 @@ module Graphlient
 
           request['Accept'] = 'application/json'
           request['Content-Type'] = 'application/json'
-          headers&.each { |name, value| request[name] = value }
+          headers && headers.each { |name, value| request[name] = value }
 
           body = {}
           body['query'] = document.to_query_string
