@@ -48,3 +48,8 @@ Style/MultilineBlockChain:
   Exclude:
     - 'spec/graphlient/client_query_spec.rb'
     - 'spec/graphlient/client_schema_spec.rb'
+
+Style/SafeNavigation:
+  Exclude:
+    - 'lib/graphlient/client.rb'
+    - 'lib/graphlient/adapters/http/http_adapter.rb'
