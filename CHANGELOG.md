@@ -1,6 +1,9 @@
-### 0.3.0 (Next)
+### 0.3.1 (Next)
 
 * Your contribution here.
+
+### 0.3.0 (02/22/2018)
+
 * [#38](https://github.com/ashkan18/graphlient/pull/38): Add support for Ruby 2.5 - [@yuki24](https://github.com/yuki24).
 * [#39](https://github.com/ashkan18/graphlient/pull/39): Add support for Ruby 2.2 - [@yuki24](https://github.com/yuki24).
 * [#40](https://github.com/ashkan18/graphlient/pull/40): Add experimental support for JRuby - [@yuki24](https://github.com/yuki24).
