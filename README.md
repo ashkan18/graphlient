@@ -107,6 +107,15 @@ The successful response contains data in `response.data`. The following example 
 response.data.create_invoice.first.id
 ```
 
+### Schema storing and loading on disk
+
+To reduce requests to graphql API you can cache schema:
+
+```ruby
+client = Client.new(url, schema_path: 'config/your_graphql_schema.json')
+client.schema.dump! # you only need to call this when graphql schema changes
+```
+
 ### Error Handling
 
 Unlike graphql-client, Graphlient will always raise an exception unless the query has succeeded.
