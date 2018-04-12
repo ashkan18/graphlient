@@ -18,8 +18,8 @@ module Graphlient
       instance_eval(&block)
     end
 
-    def method_missing(m, *args, &block)
-      append_node(m, args, &block)
+    def method_missing(method_name, *args, &block)
+      append_node(method_name, args, &block)
     end
 
     ROOT_NODES.each do |root_node|
@@ -29,7 +29,7 @@ module Graphlient
       end
     end
 
-    def respond_to_missing?(m, include_private = false)
+    def respond_to_missing?(method_name, include_private = false)
       super
     end
 
@@ -71,21 +71,21 @@ module Graphlient
       end.join(', ')
     end
 
-    def argument_string(k, v)
-      "#{k}: #{argument_value_string(v)}"
+    def argument_string(key, val)
+      "#{key}: #{argument_value_string(val)}"
     end
 
-    def variable_string(v)
-      case v
+    def variable_string(val)
+      case val
       when :id, :id!
-        v.to_s.upcase
-      when ->(value) { SCALAR_TYPES.key?(value.to_s.delete('!').to_sym) }
+        val.to_s.upcase
+      when ->(v) { SCALAR_TYPES.key?(v.to_s.delete('!').to_sym) }
         # scalar types
-        v.to_s.camelize
+        val.to_s.camelize
       when Array
-        "[#{variable_string(v.first)}]"
+        "[#{variable_string(val.first)}]"
       else
-        v.to_s
+        val.to_s
       end
     end
 
