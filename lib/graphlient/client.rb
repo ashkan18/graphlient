@@ -49,13 +49,17 @@ module Graphlient
     end
 
     def schema
-      @schema ||= GraphQL::Client.load_schema(http)
+      @schema ||= Graphlient::Schema.new(http, schema_path)
     end
 
     private
 
+    def schema_path
+      return options[:schema_path].to_s if options[:schema_path]
+    end
+
     def client
-      @client ||= GraphQL::Client.new(schema: schema, execute: http).tap do |client|
+      @client ||= GraphQL::Client.new(schema: schema.graphql_schema, execute: http).tap do |client|
         client.allow_dynamic_queries = @options.key?(:allow_dynamic_queries) ? options[:allow_dynamic_queries] : true
       end
     end

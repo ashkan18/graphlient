@@ -1,18 +1,41 @@
 require 'spec_helper'
+require 'tempfile'
 
 describe Graphlient::Client do
-  let(:client) { Graphlient::Client.new('http://graph.biz/graphql') }
+  let(:client) { described_class.new(url) }
+  let(:url) { 'http://graph.biz/graphql' }
 
   describe '#schema' do
     before do
-      stub_request(:post, 'http://graph.biz/graphql').to_return(status: 500)
+      stub_request(:post, url)
+        .to_return(body: DummySchema.execute(GraphQL::Introspection::INTROSPECTION_QUERY).to_json)
     end
 
-    it 'fails with an exception' do
-      expect do
-        client.schema
-      end.to raise_error Graphlient::Errors::ServerError do |e|
-        expect(e.to_s).to eq 'the server responded with status 500'
+    context 'when server returns error' do
+      before do
+        stub_request(:post, url).to_return(status: 500)
+      end
+
+      it 'fails with an exception' do
+        expect do
+          client.schema
+        end.to raise_error Graphlient::Errors::ServerError do |e|
+          expect(e.to_s).to eq 'the server responded with status 500'
+        end
+      end
+    end
+
+    context 'when introspection request is sucessfull' do
+      it 'returns Graphlient::Schema instance' do
+        expect(client.schema).to be_a(Graphlient::Schema)
+      end
+    end
+
+    context 'when schema path option is not String' do
+      let(:client) { described_class.new(url, schema_path: Pathname.new('config/schema.json')) }
+
+      it 'converts path to string' do
+        expect(client.schema.path).to eq 'config/schema.json'
       end
     end
   end
