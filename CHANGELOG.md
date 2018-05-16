@@ -1,7 +1,10 @@
-### 0.3.1 (Next)
+### (Next)
 
-* [#43](https://github.com/ashkan18/graphlient/pull/38): Allow to load and dump schema to json - [@povilasjurcys](https://github.com/povilasjurcys).
 * Your contribution here.
+
+### 0.3.1 (04/17/2018)
+
+* [#43](https://github.com/ashkan18/graphlient/pull/43): Allow to load and dump schema to json - [@povilasjurcys](https://github.com/povilasjurcys).
 
 ### 0.3.0 (02/22/2018)
 
