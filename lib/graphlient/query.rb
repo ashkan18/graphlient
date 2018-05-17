@@ -100,7 +100,7 @@ module Graphlient
       when Hash
         "{ #{value.map { |k, v| "#{k}: #{argument_value_string(v)}" }.join(', ')} }"
       when Symbol
-        @variables.keys.include?(value) ? "$#{value}" : value.to_s.camelize(:lower)
+        @variables.key?(value) ? "$#{value}" : value.to_s.camelize(:lower)
       else
         value
       end
