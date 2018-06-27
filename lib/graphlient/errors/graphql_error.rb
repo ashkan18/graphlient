@@ -25,9 +25,19 @@ module Graphlient
         details.map { |detail| create_detail(detail) }
       end
 
+      ##
+      # Generates human readable error explanation from a GraphQL error message
+      # It first tries `problem` attribute of the error response
+      # then checks for error root level `path` and tries to generate error from that
+      # and if none exist, it fallbacks to just return error message
       def create_detail(detail)
-        message = detail['message']
-        [message, create_problems(detail['problems']).compact.join("\n  ")].join("\n  ")
+        if detail.key?('problems')
+          [detail['message'], create_problems(detail['problems']).compact.join("\n  ")].join("\n  ")
+        elsif detail.key?('path')
+          [detail['path'].compact.join(' '), detail['message']].join(': ')
+        else
+          detail['message']
+        end
       end
 
       def create_problems(problems)
@@ -35,9 +45,8 @@ module Graphlient
       end
 
       def create_problem(problem)
-        paths = problem['path'].join(', ')
-        explanation = problem['explanation']
-        [paths, explanation].join(': ')
+        paths = problem.key?('path') && !problem['path'].empty? ? "#{problem['path'].join(', ')}: " : ''
+        [paths, problem['explanation']].compact.join
       end
     end
   end
