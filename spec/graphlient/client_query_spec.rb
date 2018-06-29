@@ -69,6 +69,17 @@ describe Graphlient::Client do
         GRAPHQL
       end
 
+      let(:not_null_query) do
+        <<-GRAPHQL
+          query($id: Int) {
+            notNullInvoice(id: $id) {
+              id
+              feeInCents
+            }
+          }
+        GRAPHQL
+      end
+
       it '#execute' do
         response = client.execute(query, id: 42)
         invoice = response.data.invoice
@@ -90,6 +101,14 @@ describe Graphlient::Client do
           client.execute(query, id: 42)
         end.to raise_error Graphlient::Errors::ExecutionError do |e|
           expect(e.to_s).to eq 'invoice: Unexpected error.'
+        end
+      end
+
+      it 'fails with proper error message' do
+        expect do
+          client.execute(not_null_query, id: 42)
+        end.to raise_error Graphlient::Errors::GraphQLError do |e|
+          expect(e.to_s).to eq 'Cannot return null for non-nullable field Query.notNullInvoice'
         end
       end
     end
