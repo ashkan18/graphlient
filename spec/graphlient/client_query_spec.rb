@@ -8,9 +8,9 @@ describe Graphlient::Client do
       let(:query) do
         client.parse do
           query do
-            invoices(ids: [10]) do
+            invoice(id: 10) do
               id
-              fee_in_cents
+              feeInCents
             end
           end
         end
@@ -22,18 +22,18 @@ describe Graphlient::Client do
 
       it '#execute' do
         response = client.execute(query)
-        invoices = response.data.invoices
-        expect(invoices.first.id).to eq 10
+        invoice = response.data.invoice
+        expect(invoice.id).to eq '10'
       end
     end
 
     context 'parameterized query' do
       let(:query) do
         client.parse do
-          query(some_ids: [:int]) do
-            invoices(ids: :some_ids) do
+          query(some_id: :int) do
+            invoice(id: :some_id) do
               id
-              fee_in_cents
+              feeInCents
             end
           end
         end
@@ -44,52 +44,71 @@ describe Graphlient::Client do
       end
 
       it '#execute' do
-        response = client.execute(query, some_ids: [42])
-        invoices = response.data.invoices
-        expect(invoices.first.id).to eq 42
-        expect(invoices.first.fee_in_cents).to eq 20_000
+        response = client.execute(query, some_id: 42)
+        invoice = response.data.invoice
+        expect(invoice.id).to eq '42'
+        expect(invoice.fee_in_cents).to eq 20_000
       end
 
       it '#execute without variables' do
         response = client.execute(query)
-        invoices = response.data.invoices
-        expect(invoices).to eq([])
+        invoice = response.data.invoice
+        expect(invoice).to be_nil
       end
     end
 
     context 'parameterized GRAPHQL query' do
       let(:query) do
         <<-GRAPHQL
-          query($ids: [Int]) {
-            invoices(ids: $ids) {
+          query($id: Int) {
+            invoice(id: $id) {
               id
-              fee_in_cents
+              feeInCents
+            }
+          }
+        GRAPHQL
+      end
+
+      let(:not_null_query) do
+        <<-GRAPHQL
+          query($id: Int) {
+            notNullInvoice(id: $id) {
+              id
+              feeInCents
             }
           }
         GRAPHQL
       end
 
       it '#execute' do
-        response = client.execute(query, ids: [42])
-        invoices = response.data.invoices
-        expect(invoices.first.id).to eq 42
-        expect(invoices.first.fee_in_cents).to eq 20_000
+        response = client.execute(query, id: 42)
+        invoice = response.data.invoice
+        expect(invoice.id).to eq '42'
+        expect(invoice.fee_in_cents).to eq 20_000
       end
 
       it 'fails when wrong input type' do
         expect do
-          client.execute(query, ids: ['42'])
+          client.execute(query, id: '42')
         end.to raise_error Graphlient::Errors::GraphQLError do |e|
-          expect(e.to_s).to eq "Variable ids of type [Int] was provided invalid value\n  0: Could not coerce value \"42\" to Int"
+          expect(e.to_s).to eq "Variable id of type Int was provided invalid value\n  Could not coerce value \"42\" to Int"
         end
       end
 
       it 'fails on an execution error' do
         expect do
           allow(OpenStruct).to receive(:new).and_raise StandardError, 'Unexpected error.'
-          client.execute(query, ids: [42])
+          client.execute(query, id: 42)
         end.to raise_error Graphlient::Errors::ExecutionError do |e|
-          expect(e.to_s).to eq 'invoices: Unexpected error.'
+          expect(e.to_s).to eq 'invoice: Unexpected error.'
+        end
+      end
+
+      it 'fails with proper error message' do
+        expect do
+          client.execute(not_null_query, id: 42)
+        end.to raise_error Graphlient::Errors::GraphQLError do |e|
+          expect(e.to_s).to eq 'Cannot return null for non-nullable field Query.notNullInvoice'
         end
       end
     end
@@ -101,59 +120,62 @@ describe Graphlient::Client do
         expect do
           client.query do
             query do
-              invoice(id: 10) do
+              invoices(id: 10) do
                 id
-                fee_in_cents
+                feeInCents
               end
             end
           end
         end.to raise_error Graphlient::Errors::ClientError do |e|
-          expect(e.to_s).to eq "Field 'invoice' doesn't exist on type 'Query'"
+          expect(e.to_s).to eq "Field 'invoices' doesn't exist on type 'Query'"
         end
       end
 
       it 'returns a response from a query' do
         response = client.query do
           query do
-            invoices(ids: [10]) do
+            invoice(id: 10) do
               id
-              fee_in_cents
+              feeInCents
             end
           end
         end
 
-        invoices = response.data.invoices
-        expect(invoices.first.id).to eq 10
-        expect(invoices.first.fee_in_cents).to eq 20_000
+        invoice = response.data.invoice
+        expect(invoice.id).to eq '10'
+        expect(invoice.fee_in_cents).to eq 20_000
       end
 
       it 'returns a response from a GRAPHQL query' do
         response = client.query <<-GRAPHQL
           query {
-            invoices(ids: [10]) {
+            invoice(id: 10) {
               id
-              fee_in_cents
+              feeInCents
             }
           }
         GRAPHQL
 
-        invoices = response.data.invoices
-        expect(invoices.first.id).to eq 10
-        expect(invoices.first.fee_in_cents).to eq 20_000
+        invoice = response.data.invoice
+        expect(invoice.id).to eq '10'
+        expect(invoice.fee_in_cents).to eq 20_000
       end
 
       it 'returns a response from a mutation' do
         response = client.query do
           mutation do
-            createInvoice(input: { fee_in_cents: 12_345 }) do
-              id
-              fee_in_cents
+            createInvoice(input: { feeInCents: 12_345 }) do
+              invoice do
+                id
+                feeInCents
+              end
+              errors
             end
           end
         end
 
-        invoice = response.data.create_invoice.first
-        expect(invoice.id).to eq 1231
+        invoice = response.data.create_invoice.invoice
+        expect(invoice.id).to eq '1231'
         expect(invoice.fee_in_cents).to eq 12_345
       end
     end
@@ -162,59 +184,67 @@ describe Graphlient::Client do
       it 'fails when missing input' do
         expect do
           client.query do
-            mutation(input: :createInvoiceInput!) do
+            mutation(input: :CreateInvoiceInput!) do
               createInvoice(input: :input) do
-                id
-                fee_in_cents
+                invoice do
+                  id
+                  feeInCents
+                end
+                errors
               end
             end
           end
         end.to raise_error Graphlient::Errors::GraphQLError,
-                           "Variable input of type createInvoiceInput! was provided invalid value\n  : Expected value to not be null"
+                           "Variable input of type CreateInvoiceInput! was provided invalid value\n  Expected value to not be null"
       end
 
       it 'returns a response from a query' do
-        response = client.query(ids: [42]) do
-          query(ids: [:int]) do
-            invoices(ids: :ids) do
+        response = client.query(id: 42) do
+          query(id: :int) do
+            invoice(id: :id) do
               id
-              fee_in_cents
+              feeInCents
             end
           end
         end
 
-        invoices = response.data.invoices
-        expect(invoices.first.id).to eq 42
-        expect(invoices.first.fee_in_cents).to eq 20_000
+        invoice = response.data.invoice
+        expect(invoice.id).to eq '42'
+        expect(invoice.fee_in_cents).to eq 20_000
       end
 
       it 'executes the mutation' do
-        response = client.query(input: { fee_in_cents: 12_345 }) do
-          mutation(input: :createInvoiceInput!) do
+        response = client.query(input: { feeInCents: 12_345 }) do
+          mutation(input: :CreateInvoiceInput!) do
             createInvoice(input: :input) do
-              id
-              fee_in_cents
+              invoice do
+                id
+                feeInCents
+              end
+              errors
             end
           end
         end
-
-        invoice = response.data.create_invoice.first
-        expect(invoice.id).to eq 1231
+        invoice = response.data.create_invoice.invoice
+        expect(invoice.id).to eq '1231'
         expect(invoice.fee_in_cents).to eq 12_345
       end
 
       it 'fails when mutation missing a field' do
         expect do
           client.query(input: {}) do
-            mutation(input: :createInvoiceInput!) do
+            mutation(input: :CreateInvoiceInput!) do
               createInvoice(input: :input) do
-                id
-                fee_in_cents
+                invoice do
+                  id
+                  feeInCents
+                end
+                errors
               end
             end
           end
         end.to raise_error Graphlient::Errors::GraphQLError,
-                           "Variable input of type createInvoiceInput! was provided invalid value\n  fee_in_cents: Expected value to not be null"
+                           "Variable input of type CreateInvoiceInput! was provided invalid value\n  feeInCents: Expected value to not be null"
       end
     end
   end

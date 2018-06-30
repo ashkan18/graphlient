@@ -1,6 +1,7 @@
-InvoiceType = GraphQL::ObjectType.define do
-  name 'Invoice'
+class InvoiceType < GraphQL::Schema::Object
   description 'An Invoice'
-  field :id, !types.Int
-  field :fee_in_cents, types.Int
+  graphql_name 'Invoice'
+
+  field :id, ID, null: false
+  field :fee_in_cents, Integer, null: true
 end
