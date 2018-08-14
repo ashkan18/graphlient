@@ -39,6 +39,15 @@ describe Graphlient::Schema do
       it 'updates schema json file' do
         expect { schema.dump! }.to(change { File.read(@schema_path) })
       end
+
+      context 'with a schema file' do
+        before do
+          schema.dump!
+        end
+        it 'reads the schema' do
+          expect(client.schema).to be_a Graphlient::Schema
+        end
+      end
     end
   end
 end

@@ -18,5 +18,6 @@ group :test do
   gem 'rspec'
   gem 'rspec-mocks'
   gem 'sinatra'
+  gem 'vcr'
   gem 'webmock'
 end
