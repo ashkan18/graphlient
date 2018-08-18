@@ -1,6 +1,9 @@
-### (Next)
+### 0.3.3 (Next)
 
 * Your contribution here.
+
+### 0.3.2 (07/03/2018)
+
 * [#46](https://github.com/ashkan18/graphlient/pull/46): Fix issue with gathering error details when trying `to_s` on `GraphQLError` - [@ashkan18](https://github.com/ashkan18).
 * [#45](https://github.com/ashkan18/graphlient/pull/45): Drop Support for Ruby 2.2 and Lock RuboCop - [@jonallured](https://github.com/jonallured).
 
