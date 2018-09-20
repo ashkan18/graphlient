@@ -1,12 +1,11 @@
 module Graphlient
   module Errors
     class Error < StandardError
-      attr_reader :inner_exception
+      attr_reader :response
 
-      def initialize(message, inner_exception = nil)
+      def initialize(message, response)
         super(message)
-
-        @inner_exception = inner_exception
+        @response = response
       end
     end
   end
