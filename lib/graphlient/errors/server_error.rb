@@ -1,10 +1,11 @@
 module Graphlient
   module Errors
     class ServerError < Error
-      attr_reader :status_code
-      def initialize(message, http_status, response_body)
-        super(message, response_body)
-        @status_code = http_status
+      attr_reader :inner_exception, :status_code, :response
+
+      def initialize(message, inner_exception)
+        super(message)
+        @inner_exception = inner_exception
       end
     end
   end

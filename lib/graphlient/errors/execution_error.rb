@@ -1,8 +1,11 @@
 module Graphlient
   module Errors
     class ExecutionError < Error
+      attr_reader :response
+
       def initialize(response)
-        super('the server responded with a GraphQL execution error', response)
+        super('the server responded with a GraphQL execution error')
+        @response = response
       end
 
       def errors
