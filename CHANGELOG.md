@@ -1,6 +1,9 @@
-### 0.3.3 (Next)
+### 0.3.4 (Next)
 
 * Your contribution here.
+
+### 0.3.2 (09/23/2018)
+
 * [#50](https://github.com/ashkan18/graphlient/pull/50): More detailed error responses - [@ashkan18](https://github.com/ashkan18).
 
 ### 0.3.2 (07/03/2018)
