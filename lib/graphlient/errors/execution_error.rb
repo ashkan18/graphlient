@@ -9,7 +9,7 @@ module Graphlient
       end
 
       def errors
-        @response.data.errors
+        response.data.errors
       end
 
       def to_s
