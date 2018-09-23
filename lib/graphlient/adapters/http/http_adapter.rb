@@ -18,7 +18,7 @@ module Graphlient
           request.body = JSON.generate(body)
 
           response = connection.request(request)
-          raise Graphlient::Errors::ServerError.new("the server responded with status #{response.code}", response) unless response.is_a?(Net::HTTPOK)
+          raise Graphlient::Errors::HttpServerError, response unless response.is_a?(Net::HTTPOK)
           JSON.parse(response.body)
         end
 

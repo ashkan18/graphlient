@@ -13,7 +13,7 @@ describe Graphlient::Client do
 
     context 'when server returns error' do
       before do
-        stub_request(:post, url).to_return(status: 500)
+        stub_request(:post, url).to_return(status: 500, body: { errors: [{ message: 'test message', extensions: { code: 'SOMETHING', timestamp: Time.now } }] }.to_json)
       end
 
       it 'fails with an exception' do
@@ -21,6 +21,9 @@ describe Graphlient::Client do
           client.schema
         end.to raise_error Graphlient::Errors::ServerError do |e|
           expect(e.to_s).to eq 'the server responded with status 500'
+          expect(e.status_code).to eq 500
+          expect(e.response['errors'].size).to eq 1
+          expect(e.response['errors'].first['message']).to eq 'test message'
         end
       end
     end

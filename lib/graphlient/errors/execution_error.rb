@@ -4,8 +4,8 @@ module Graphlient
       attr_reader :response
 
       def initialize(response)
+        super('the server responded with a GraphQL execution error')
         @response = response
-        super 'the server responded with a GraphQL execution error'
       end
 
       def errors

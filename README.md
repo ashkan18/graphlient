@@ -123,7 +123,10 @@ Unlike graphql-client, Graphlient will always raise an exception unless the quer
 * [Graphlient::Errors::ClientError](lib/graphlient/errors/client_error.rb): all client-side query validation failures based on current schema
 * [Graphlient::Errors::GraphQLError](lib/graphlient/errors/graphql_error.rb): all GraphQL API errors, with a humanly readable collection of problems
 * [Graphlient::Errors::ExecutionError](lib/graphlient/errors/execution_error.rb): all GraphQL execution errors, with a humanly readable collection of problems
-* [Graphlient::Errors::ServerError](lib/graphlient/errors/server_error.rb): all transport errors raised by Faraday
+* [Graphlient::Errors::ServerError](lib/graphlient/errors/server_error.rb): all transport errors raised by HTTP Adapters. You can access `inner_exception`, `status_code` and `response` on these errors to get more details on what went wrong
+* [Graphlient::Errors::FaradayServerError](lib/graphlient/errors/faraday_server_error.rb): this inherits from `ServerError` ☝️, we recommend using `ServerError` to rescue these
+* [Graphlient::Errors::HttpServerError](lib/graphlient/errors/http_server_error.rb): this inherits from `ServerError` ☝️, we recommend using `ServerError` to rescue these
+
 
 All errors inherit from `Graphlient::Errors::Error` if you need to handle them in bulk.
 

@@ -16,7 +16,7 @@ module Graphlient
           end
           response.body
         rescue Faraday::ClientError => e
-          raise Graphlient::Errors::ServerError.new(e.message, e)
+          raise Graphlient::Errors::FaradayServerError, e
         end
 
         def connection

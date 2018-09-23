@@ -112,6 +112,26 @@ describe Graphlient::Client do
         end
       end
     end
+
+    context 'non-parameterized query' do
+      let(:query) do
+        <<-GRAPHQL
+          query($someId: Int) {
+            invoices(id: $someId) {
+              id
+              feeInCents
+            }
+          }
+        GRAPHQL
+      end
+      it 'fails client-side on invalid schema' do
+        expect do
+          client.execute(query, some_id: 'NASDASASD')
+        end.to raise_error Graphlient::Errors::ClientError do |e|
+          expect(e.to_s).to eq "Field 'invoices' doesn't exist on type 'Query'"
+        end
+      end
+    end
   end
 
   describe '#query' do
