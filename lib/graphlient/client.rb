@@ -26,7 +26,7 @@ module Graphlient
       raise Graphlient::Errors::GraphQLError, rc if rc.errors.any?
       # see https://github.com/github/graphql-client/pull/132
       # see https://github.com/exAspArk/graphql-errors/issues/2
-      raise Graphlient::Errors::ExecutionError, rc if rc.data&.errors && rc.data.errors.any?
+      raise Graphlient::Errors::ExecutionError, rc if errors_in_result?(rc)
       rc
     rescue GraphQL::Client::Error => e
       raise Graphlient::Errors::ClientError, e.message
@@ -62,6 +62,10 @@ module Graphlient
       @client ||= GraphQL::Client.new(schema: schema.graphql_schema, execute: http).tap do |client|
         client.allow_dynamic_queries = @options.key?(:allow_dynamic_queries) ? options[:allow_dynamic_queries] : true
       end
+    end
+
+    def errors_in_result?(response)
+      response.data && response.data.errors && response.data.errors.any?
     end
   end
 end

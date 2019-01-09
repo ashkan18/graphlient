@@ -4,6 +4,9 @@ Style/FrozenStringLiteralComment:
 Style/Documentation:
   Enabled: false
 
+Style/SafeNavigation:
+  Enabled: false
+
 Metrics/LineLength:
   Enabled: false
 
