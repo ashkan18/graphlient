@@ -8,8 +8,8 @@ module Graphlient
       yield self if block_given?
     end
 
-    def parse(&block)
-      query_str = Graphlient::Query.new do
+    def parse(query_str = nil, &block)
+      query_str ||= Graphlient::Query.new do
         instance_eval(&block)
       end
       client.parse(query_str.to_s)
