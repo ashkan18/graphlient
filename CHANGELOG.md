@@ -1,7 +1,7 @@
 ### 0.3.4 (Next)
 
 * [#56](https://github.com/ashkan18/graphlient/pull/56): Remove safe navigation usage to retain support for Ruby 2.2 - [@avinoth](https://github.com/avinoth).
-* Your contribution here.
+* [#57](https://github.com/ashkan18/graphlient/pull/57): Add support for parsing queries from a String - [@ateamlunchbox](https://github.com/ateamlunchbox).
 
 ### 0.3.2 (09/23/2018)
 
