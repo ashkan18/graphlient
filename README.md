@@ -208,6 +208,23 @@ end
 client.execute query, ids: [42]
 ```
 
+Or pass in a string instead of a block:
+
+```ruby
+# parse a query, returns a GraphQL::Client::OperationDefinition
+query = client.parse <<~GRAPHQL
+  query($some_id: Int) {
+    invoice(id: $some_id) {
+      id
+      feeInCents
+    }
+  }
+GRAPHQL
+
+# execute a query, returns a GraphQL::Client::Response
+client.execute query, ids: [42]
+```
+
 ### Dynamic vs. Static Queries
 
 Graphlient uses [graphql-client](https://github.com/github/graphql-client), which [recommends](https://github.com/github/graphql-client/blob/master/guides/dynamic-query-error.md) building queries as static module members along with dynamic variables during execution. This can be accomplished with graphlient the same way.
