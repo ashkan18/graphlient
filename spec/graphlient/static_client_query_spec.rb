@@ -24,7 +24,7 @@ describe Graphlient::Client do
         }
       GRAPHQL
 
-      Query = Client.parse do
+      BlockQuery = Client.parse do
         query(some_id: :int) do
           invoice(id: :some_id) do
             id
@@ -47,13 +47,13 @@ describe Graphlient::Client do
     end
 
     it 'gets equivalent results for Query and StringQuery' do
-      response = Graphlient::Client::Spec::Client.execute(Graphlient::Client::Spec::Query, some_id: 42)
-      response2 = Graphlient::Client::Spec::Client.execute(Graphlient::Client::Spec::StringQuery, some_id: 42)
-      expect(response2.to_h).to eq response.to_h
+      block_response = Graphlient::Client::Spec::Client.execute(Graphlient::Client::Spec::BlockQuery, some_id: 42)
+      string_response = Graphlient::Client::Spec::Client.execute(Graphlient::Client::Spec::StringQuery, some_id: 42)
+      expect(string_response.to_h).to eq block_response.to_h
     end
 
     it '#execute' do
-      response = Graphlient::Client::Spec::Client.execute(Graphlient::Client::Spec::Query, some_id: 42)
+      response = Graphlient::Client::Spec::Client.execute(Graphlient::Client::Spec::BlockQuery, some_id: 42)
       invoice = response.data.invoice
       expect(invoice.id).to eq '42'
       expect(invoice.fee_in_cents).to eq 20_000
