@@ -21,6 +21,8 @@ Change next release in [CHANGELOG.md](CHANGELOG.md) to the new version.
 
 Remove the line with "Your contribution here.", since there will be no more contributions to this release.
 
+Update the version in `lib/graphlient/version.rb`.
+
 Commit your changes.
 
 ```
