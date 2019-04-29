@@ -1,4 +1,8 @@
-### 0.3.5 (Next)
+### 0.3.6 (Next)
+
+* Your contribution here.
+
+### 0.3.5 (04/29/2019)
 
 * [#59](https://github.com/ashkan18/graphlient/pull/59): Fixes server timeout issue - [@brianmcoates](https://github.com/brianmcoates).
 
