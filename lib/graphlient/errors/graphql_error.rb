@@ -1,7 +1,7 @@
 module Graphlient
   module Errors
     class GraphQLError < Error
-      attr_reader :responsee
+      attr_reader :response
       def initialize(response)
         super('the server responded with a GraphQL error')
         @response = response
@@ -16,6 +16,12 @@ module Graphlient
           details = create_details(details).join("\n")
           [key == 'data' ? nil : key, details].compact.join(': ')
         end.join("\n")
+      end
+
+      def responsee
+        warn "The `#responsee' method is deprecated since it has a typo. Please use the `#response' method instead."
+
+        @responsee
       end
 
       private

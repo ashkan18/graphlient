@@ -1,5 +1,6 @@
 ### 0.3.5 (Next)
 
+* [#62](https://github.com/ashkan18/graphlient/pull/62): Fix typo preventing access to response object on error - [@jmondo](https://github.com/jmondo).
 * Your contribution here.
 
 ### 0.3.4 (01/31/2019)

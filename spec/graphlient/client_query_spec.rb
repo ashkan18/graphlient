@@ -111,6 +111,14 @@ describe Graphlient::Client do
           expect(e.to_s).to eq 'Cannot return null for non-nullable field Query.notNullInvoice'
         end
       end
+
+      it 'fails with access to the response' do
+        expect do
+          client.execute(not_null_query, id: 42)
+        end.to raise_error Graphlient::Errors::GraphQLError do |e|
+          expect(e.response).to be_a GraphQL::Client::Response
+        end
+      end
     end
 
     context 'non-parameterized query' do
