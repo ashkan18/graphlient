@@ -11,7 +11,7 @@ group :development do
 end
 
 group :test do
-  gem 'graphql'
+  gem 'graphql', '~> 1.9.7'
   gem 'graphql-errors'
   gem 'rack-parser'
   gem 'rack-test'
