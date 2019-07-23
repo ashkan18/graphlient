@@ -18,12 +18,6 @@ module Graphlient
         end.join("\n")
       end
 
-      def responsee
-        warn "The `#responsee' method is deprecated since it has a typo. Please use the `#response' method instead."
-
-        @responsee
-      end
-
       private
 
       def create_details(details)
