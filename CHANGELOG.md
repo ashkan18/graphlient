@@ -1,5 +1,7 @@
-### 0.3.5 (Next)
+### 0.3.7 (Next)
 * Your contribution here.
+
+### 0.3.6 (07/23/2019)
 
 * [#63](https://github.com/ashkan18/graphlient/pull/63): Remove unused method for attribute with typo - [@ashkan18](https://github.com/ashkan18).
 * [#62](https://github.com/ashkan18/graphlient/pull/62): Fix typo preventing access to response object on error - [@jmondo](https://github.com/jmondo).
