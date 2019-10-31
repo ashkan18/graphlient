@@ -17,4 +17,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'faraday'
   s.add_dependency 'faraday_middleware'
   s.add_dependency 'graphql-client'
+  s.add_dependency 'mime-types'
 end
