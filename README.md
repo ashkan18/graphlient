@@ -190,7 +190,7 @@ end
 
 ### Files support
 
-You can send files while using `FaradayMultipartAdapter`
+You can send files while using `FaradayMultipartAdapter`.
 
 ```ruby
 client = Graphlient::Client.new('example.com/graphql',

@@ -58,7 +58,7 @@ RSpec.describe Graphlient::Adapters::HTTP::FaradayMultipartAdapter::FormatMultip
         }
       end
 
-      it 'contverts file to Faraday::UploadIO' do
+      it 'converts file to Faraday::UploadIO' do
         result = call[:val].map { |val| val[:file] }
         expect(result).to all be_a(Faraday::UploadIO)
       end
