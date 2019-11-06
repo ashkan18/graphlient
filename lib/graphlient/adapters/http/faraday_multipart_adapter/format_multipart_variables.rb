@@ -26,7 +26,7 @@ module Graphlient
           def deep_transform_values(hash, &block)
             return hash unless hash.is_a?(Hash)
 
-            hash.transform_values do |val|
+            transform_hash_values(hash) do |val|
               if val.is_a?(Hash)
                 deep_transform_values(val, &block)
               else
@@ -39,7 +39,9 @@ module Graphlient
             if variable.is_a?(Array)
               variable.map { |it| variable_value(it) }
             elsif variable.is_a?(Hash)
-              variable.transform_values { |it| variable_value(it) }
+              transform_hash_values(variable) do |value|
+                variable_value(value)
+              end
             elsif variable.is_a?(File)
               file_variable_value(variable)
             else
@@ -52,6 +54,12 @@ module Graphlient
             return Faraday::UploadIO.new(file.path, content_type) if content_type
 
             raise NoMimeTypeException, "Unable to determine mime type for #{file.path}"
+          end
+
+          def transform_hash_values(hash)
+            hash.each_with_object({}) do |(key, value), result|
+              result[key] = yield(value)
+            end
           end
         end
       end
