@@ -19,6 +19,7 @@ module Graphlient
 
           response = connection.request(request)
           raise Graphlient::Errors::HttpServerError, response unless response.is_a?(Net::HTTPOK)
+
           JSON.parse(response.body)
         end
 

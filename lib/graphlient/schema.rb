@@ -20,6 +20,7 @@ module Graphlient
 
     def dump!
       raise MissingConfigurationError, PATH_ERROR_MESSAGE unless path
+
       GraphQL::Client.dump_schema(http, path)
     end
   end

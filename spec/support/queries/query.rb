@@ -12,6 +12,7 @@ class Query < GraphQL::Schema::Object
 
   def invoice(id: nil)
     return nil if id.nil?
+
     OpenStruct.new(
       id: id,
       fee_in_cents: 20_000

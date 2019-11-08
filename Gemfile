@@ -5,9 +5,8 @@ gemspec
 gem 'rake'
 
 group :development do
-  gem 'byebug', platform: :ruby
   gem 'danger-changelog', '~> 0.2.1'
-  gem 'rubocop', '0.56.0'
+  gem 'rubocop'
 end
 
 group :test do
@@ -20,4 +19,9 @@ group :test do
   gem 'sinatra'
   gem 'vcr'
   gem 'webmock'
+end
+
+group :development, :test do
+  gem 'byebug'
+  gem 'pry'
 end
