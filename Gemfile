@@ -4,6 +4,10 @@ gemspec
 
 gem 'rake'
 
+group :development, :test do
+  gem 'activesupport', '< 6'
+end
+
 group :development do
   gem 'byebug', platform: :ruby
   gem 'danger-changelog', '~> 0.2.1'
