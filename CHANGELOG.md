@@ -1,5 +1,6 @@
 ### 0.3.7 (Next)
 * Your contribution here.
+* [#68](https://github.com/ashkan18/graphlient/pull/68): Add graphlient::errors::connectionfailederror - [@neroleung](https://github.com/neroleung).
 
 ### 0.3.6 (07/23/2019)
 

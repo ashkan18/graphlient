@@ -15,6 +15,8 @@ module Graphlient
             }.to_json
           end
           response.body
+        rescue Faraday::ConnectionFailed => e
+          raise Graphlient::Errors::ConnectionFailedError, e
         rescue Faraday::ClientError => e
           raise Graphlient::Errors::FaradayServerError, e
         end

@@ -57,4 +57,25 @@ describe Graphlient::Adapters::HTTP::FaradayAdapter do
       expect(client.schema).to be_a Graphlient::Schema
     end
   end
+
+  context 'Failed to open TCP connection error' do
+    let(:url) { 'http://example.com/graphql' }
+    let(:client) { Graphlient::Client.new(url) }
+    let(:error_message) do
+      'Failed to open TCP connection to localhost:3000 (Connection refused - connect(2) for "localhost" port 3000)'
+    end
+
+    before do
+      wrapped_error = Errno::ECONNREFUSED.new(error_message)
+      error = Faraday::ConnectionFailed.new(wrapped_error)
+
+      stub_request(:post, url).to_raise(error)
+    end
+
+    specify do
+      expected_error_message = "Connection refused - #{error_message}"
+
+      expect { client.schema }.to raise_error(Graphlient::Errors::ConnectionFailedError, expected_error_message)
+    end
+  end
 end
