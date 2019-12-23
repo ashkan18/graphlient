@@ -127,6 +127,7 @@ Unlike graphql-client, Graphlient will always raise an exception unless the quer
 * [Graphlient::Errors::FaradayServerError](lib/graphlient/errors/faraday_server_error.rb): this inherits from `ServerError` ☝️, we recommend using `ServerError` to rescue these
 * [Graphlient::Errors::HttpServerError](lib/graphlient/errors/http_server_error.rb): this inherits from `ServerError` ☝️, we recommend using `ServerError` to rescue these
 * [Graphlient::Errors::ConnectionFailedError](lib/graphlient/errors/connection_failed_error.rb): this inherits from `ServerError` ☝️, we recommend using `ServerError` to rescue these
+* [Graphlient::Errors::TimeoutError](lib/graphlient/errors/timeout_error.rb): this inherits from `ServerError` ☝️, we recommend using `ServerError` to rescue these
 
 
 All errors inherit from `Graphlient::Errors::Error` if you need to handle them in bulk.

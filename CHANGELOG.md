@@ -1,4 +1,5 @@
 ### 0.3.8 (Next)
+* [#71](https://github.com/ashkan18/graphlient/issues/70): Add `Graphlient::Errors::TimeoutError` - [@BenDrozdoff](https://github.com/BenDrozdoff).
 * Your contribution here.
 
 ### 0.3.7 (14/11/2019)
