@@ -78,4 +78,17 @@ describe Graphlient::Adapters::HTTP::FaradayAdapter do
       expect { client.schema }.to raise_error(Graphlient::Errors::ConnectionFailedError, expected_error_message)
     end
   end
+
+  context 'Faraday Timeout Error' do
+    let(:url) { 'http://example.com/graphql' }
+    let(:client) { Graphlient::Client.new(url) }
+    let(:error_message) { 'Failed to Connect' }
+
+    before do
+      stub_request(:post, url).to_raise(Faraday::TimeoutError.new(Net::ReadTimeout.new(error_message)))
+    end
+    it 'raises a Graphlient Timeout' do
+      expect { client.schema }.to raise_error(Graphlient::Errors::TimeoutError, error_message)
+    end
+  end
 end

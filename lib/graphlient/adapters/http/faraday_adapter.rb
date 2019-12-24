@@ -17,6 +17,8 @@ module Graphlient
           response.body
         rescue Faraday::ConnectionFailed => e
           raise Graphlient::Errors::ConnectionFailedError, e
+        rescue Faraday::TimeoutError => e
+          raise Graphlient::Errors::TimeoutError, e
         rescue Faraday::ClientError => e
           raise Graphlient::Errors::FaradayServerError, e
         end
