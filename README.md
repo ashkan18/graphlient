@@ -15,12 +15,16 @@ gem 'graphlient'
 
 ## Usage
 
-Create a new instance of `Graphlient::Client` with a URL and optional headers.
+Create a new instance of `Graphlient::Client` with a URL and optional headers/http_options.
 
 ```ruby
 client = Graphlient::Client.new('https://test-graphql.biz/graphql',
   headers: {
     'Authorization' => 'Bearer 123'
+  },
+  http_options: {
+    read_timeout: 20,
+    write_timeout: 30
   }
 )
 ```
@@ -128,6 +132,7 @@ Unlike graphql-client, Graphlient will always raise an exception unless the quer
 * [Graphlient::Errors::HttpServerError](lib/graphlient/errors/http_server_error.rb): this inherits from `ServerError` ☝️, we recommend using `ServerError` to rescue these
 * [Graphlient::Errors::ConnectionFailedError](lib/graphlient/errors/connection_failed_error.rb): this inherits from `ServerError` ☝️, we recommend using `ServerError` to rescue these
 * [Graphlient::Errors::TimeoutError](lib/graphlient/errors/timeout_error.rb): this inherits from `ServerError` ☝️, we recommend using `ServerError` to rescue these
+* [Graphlient::Errors::HttpOptionsError](lib/graphlient/errors/http_options_error.rb): all NoMethodError raised by HTTP Adapters when given options in `http_options` are invalid
 
 
 All errors inherit from `Graphlient::Errors::Error` if you need to handle them in bulk.

@@ -26,11 +26,14 @@ describe Graphlient::Adapters::HTTP::FaradayAdapter do
     end
   end
 
-  context 'with custom url and headers' do
+  context 'with custom url, headers and http_options' do
     let(:url) { 'http://example.com/graphql' }
     let(:headers) { { 'Foo' => 'bar' } }
+    let(:http_options) { { timeout: timeout, write_timeout: write_timeout } }
+    let(:timeout) { 123 }
+    let(:write_timeout) { 234 }
     let(:client) do
-      Graphlient::Client.new(url, headers: headers)
+      Graphlient::Client.new(url, headers: headers, http_options: http_options)
     end
 
     it 'sets url' do
@@ -39,6 +42,19 @@ describe Graphlient::Adapters::HTTP::FaradayAdapter do
 
     it 'sets headers' do
       expect(client.http.headers).to eq headers
+    end
+
+    it 'sets http_options' do
+      expect(client.http.connection.options.timeout).to eq(timeout)
+      expect(client.http.connection.options.write_timeout).to eq(write_timeout)
+    end
+
+    context 'when http_options contains invalid option' do
+      let(:http_options) { { an_invalid_option: 'an invalid option' } }
+
+      it 'raises Graphlient::Errors::HttpOptionsError' do
+        expect { client.http.connection }.to raise_error(Graphlient::Errors::HttpOptionsError)
+      end
     end
   end
 

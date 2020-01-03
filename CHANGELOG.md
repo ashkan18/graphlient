@@ -1,4 +1,5 @@
 ### 0.3.8 (Next)
+* [#72](https://github.com/ashkan18/graphlient/pull/72): Add http_options - [@neroleung](https://github.com/neroleung).
 * [#71](https://github.com/ashkan18/graphlient/issues/70): Add `Graphlient::Errors::TimeoutError` - [@BenDrozdoff](https://github.com/BenDrozdoff).
 * Your contribution here.
 
