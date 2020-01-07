@@ -14,8 +14,26 @@ module Graphlient
           options[:headers] if options
         end
 
+        def http_options
+          return {} unless options
+
+          options[:http_options] || {}
+        end
+
         def execute(*)
           raise NotImplementedError
+        end
+
+        private
+
+        def configure_http_options(client_options)
+          http_options.each do |k, v|
+            begin
+              client_options.send("#{k}=", v)
+            rescue NoMethodError => e
+              raise Graphlient::Errors::HttpOptionsError, e.message
+            end
+          end
         end
       end
     end

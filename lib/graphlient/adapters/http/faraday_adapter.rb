@@ -28,6 +28,9 @@ module Graphlient
             c.use Faraday::Response::RaiseError
             c.request :json
             c.response :json
+
+            configure_http_options(c.options)
+
             if block_given?
               yield c
             else

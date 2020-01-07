@@ -45,7 +45,9 @@ module Graphlient
     end
 
     def http(&block)
-      @http ||= http_adapter_class.new(@url, headers: @options[:headers], &block)
+      adapter_options = { headers: @options[:headers], http_options: @options[:http_options] }
+
+      @http ||= http_adapter_class.new(@url, adapter_options, &block)
     end
 
     def schema

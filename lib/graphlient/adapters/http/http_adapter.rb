@@ -29,6 +29,8 @@ module Graphlient
         def connection
           Net::HTTP.new(uri.host, uri.port).tap do |client|
             client.use_ssl = uri.scheme == 'https'
+
+            configure_http_options(client)
           end
         end
       end
