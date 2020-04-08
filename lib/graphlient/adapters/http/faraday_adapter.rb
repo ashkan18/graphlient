@@ -34,7 +34,7 @@ module Graphlient
             if block_given?
               yield c
             else
-              c.use Faraday::Adapter::NetHttp
+              c.adapter Faraday::Adapter::NetHttp
             end
           end
         end
