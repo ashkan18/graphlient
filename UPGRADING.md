@@ -1,6 +1,12 @@
 Upgrading Graphlient
 ===========================
 
+### Upgrading to >= 0.3.8
+
+#### Requires Faraday >= 1.0
+
+See [#75](https://github.com/ashkan18/graphlient/pull/75).
+
 ### Upgrading to >= 0.3.7
 
 #### Changes in error handling of connection refused error
