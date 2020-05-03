@@ -21,6 +21,8 @@ module Graphlient
           raise Graphlient::Errors::TimeoutError, e
         rescue Faraday::ClientError => e
           raise Graphlient::Errors::FaradayServerError, e
+        rescue Faraday::ServerError => e
+          raise Graphlient::Errors::FaradayServerError, e
         end
 
         def connection
