@@ -21,6 +21,8 @@ module Graphlient
           raise Graphlient::Errors::TimeoutError, e
         rescue Faraday::ClientError => e
           raise Graphlient::Errors::FaradayServerError, e
+        rescue Faraday::ServerError => e
+          raise Graphlient::Errors::FaradayServerError, e
         end
 
         def connection
@@ -34,7 +36,7 @@ module Graphlient
             if block_given?
               yield c
             else
-              c.use Faraday::Adapter::NetHttp
+              c.adapter Faraday::Adapter::NetHttp
             end
           end
         end

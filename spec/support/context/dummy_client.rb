@@ -18,7 +18,7 @@ RSpec.shared_context 'Dummy Client', shared_context: :metadata do
     Graphlient::Client.new(endpoint, headers: headers) do |client|
       client.http do |h|
         h.connection do |c|
-          c.use Faraday::Adapter::Rack, app
+          c.adapter Faraday::Adapter::Rack, app
         end
       end
     end
