@@ -1,12 +1,15 @@
 ### 0.5.0 (Next)
 
-### 0.4.0
+* Your contribution here.
+
+### 0.4.0 (5/22/2020)
+
 * [#72](https://github.com/ashkan18/graphlient/pull/72): Add http_options - [@neroleung](https://github.com/neroleung).
 * [#71](https://github.com/ashkan18/graphlient/issues/70): Add `Graphlient::Errors::TimeoutError` - [@BenDrozdoff](https://github.com/BenDrozdoff).
 * [#75](https://github.com/ashkan18/graphlient/pull/75): Support Faraday 1.x - [@jfhinchcliffe](https://github.com/jfhinchcliffe).
-* Your contribution here.
 
-### 0.3.7 (14/11/2019)
+### 0.3.7 (11/14/2019)
+
 * [#68](https://github.com/ashkan18/graphlient/pull/68): Add `Graphlient::Errors::ConnectionFailedError` - [@neroleung](https://github.com/neroleung).
 
 ### 0.3.6 (07/23/2019)
