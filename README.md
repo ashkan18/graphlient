@@ -17,6 +17,8 @@ gem 'graphlient'
 
 Create a new instance of `Graphlient::Client` with a URL and optional headers/http_options.
 
+>timeout values are set in seconds
+
 ```ruby
 client = Graphlient::Client.new('https://test-graphql.biz/graphql',
   headers: {
