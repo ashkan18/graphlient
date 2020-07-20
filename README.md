@@ -17,8 +17,6 @@ gem 'graphlient'
 
 Create a new instance of `Graphlient::Client` with a URL and optional headers/http_options.
 
->timeout values are set in seconds
-
 ```ruby
 client = Graphlient::Client.new('https://test-graphql.biz/graphql',
   headers: {
@@ -30,6 +28,11 @@ client = Graphlient::Client.new('https://test-graphql.biz/graphql',
   }
 )
 ```
+
+| http_options  | default | type    |
+|---------------|---------|---------|
+| read_timeout  | nil     | seconds |
+| write_timeout | nil     | seconds |
 
 The schema is available automatically via `.schema`.
 
