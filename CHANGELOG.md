@@ -7,6 +7,7 @@
 * [#72](https://github.com/ashkan18/graphlient/pull/72): Add http_options - [@neroleung](https://github.com/neroleung).
 * [#71](https://github.com/ashkan18/graphlient/issues/70): Add `Graphlient::Errors::TimeoutError` - [@BenDrozdoff](https://github.com/BenDrozdoff).
 * [#75](https://github.com/ashkan18/graphlient/pull/75): Support Faraday 1.x - [@jfhinchcliffe](https://github.com/jfhinchcliffe).
+* [#78](https://github.com/ashkan18/graphlient/pull/78): Add description of timeout values - [@sap1enza](https://github.com/sap1enza).
 
 ### 0.3.7 (11/14/2019)
 

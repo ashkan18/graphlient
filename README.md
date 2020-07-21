@@ -29,6 +29,11 @@ client = Graphlient::Client.new('https://test-graphql.biz/graphql',
 )
 ```
 
+| http_options  | default | type    |
+|---------------|---------|---------|
+| read_timeout  | nil     | seconds |
+| write_timeout | nil     | seconds |
+
 The schema is available automatically via `.schema`.
 
 ```ruby
