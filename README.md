@@ -389,6 +389,61 @@ describe App do
 end
 ```
 
+In order to test the client side `stub_request` with Webmock.
+
+```ruby
+describe App do
+  let(:url) { 'https://your_route.com/graphql' }
+  let(:client) { Graphlient::Client.new(url, schema_path: 'you_dumped_schema_path.json' ) }
+  let(:query) {
+    <<~GRAPHQL
+      query {
+        user{
+          id
+          metadata{
+            totalPages
+            totalCount
+          }
+        }
+      }
+    GRAPHQL
+  }
+  let(:json_response){
+    { 
+      "data" => {
+        "user" => {
+          "id" => "63d2d9f1-cf3b-4642-be69-e659bd415b80",
+          "metadata" => {
+            "totalPages" => 60,
+            "totalCount" => 1497,
+            }
+          }
+        }
+      }.to_json
+  }
+
+  before do
+    stub_request(:post, url).to_return(
+      status: 200,
+      body: json_response
+    )
+  end
+
+  it 'responds ok when querying data' do
+    response = client.query(query)
+    expect(response.data).to be_truthy
+    expect(response.data.user.id).to be_truthy
+    expect(response.data.user.metadata).to be_truthy
+    expect(response.data.user.metadata.total_pages).to eq 60
+    expect(response.data.user.metadata.total_count).to eq 1497
+  end
+end
+```
+
+**Notes**
+1. To get this working drop your schema first `see` [Schema storing and loading on disk](#schema-storing-and-loading-on-disk)
+2. Object properties camel cased such as `totalPage` should be accessed as `total_page` (snake case)
+
 ## License
 
 MIT License, see [LICENSE](LICENSE)
