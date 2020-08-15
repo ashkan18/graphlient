@@ -394,7 +394,7 @@ In order to stub the response to actual queries, [dump the schema into a JSON fi
 ```ruby
 describe App do
   let(:url) { 'http://graph.biz/graphql' }
-  let(:client) { Graphlient::Client.new(url, schema_path: 'spec/support/fixtures/schema.json') }
+  let(:client) { Graphlient::Client.new(url, schema_path: 'spec/support/fixtures/invoice_api.json') }
   let(:query) do
     <<~GRAPHQL
       query{
@@ -423,7 +423,7 @@ describe App do
     )
   end
 
-  it 'returns the expected data' do
+  it 'returns invoice fees' do
     response = client.query(query)
     expect(response.data).to be_truthy
     expect(response.data.invoice.id).to eq('42')
