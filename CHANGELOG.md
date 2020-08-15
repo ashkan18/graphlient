@@ -1,6 +1,7 @@
 ### 0.5.0 (Next)
 
 * Your contribution here.
+* [#79](https://github.com/ashkan18/graphlient/pull/79): Added client testing docs - [@GabrielDzul](https://github.com/GabrielDzul).
 
 ### 0.4.0 (5/22/2020)
 
