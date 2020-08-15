@@ -389,38 +389,32 @@ describe App do
 end
 ```
 
-In order to test the client side `stub_request` with Webmock.
+In order to stub the response to actual queries, [dump the schema into a JSON file](#schema-storing-and-loading-on-disk) and specify it via schema_path as follows.
 
 ```ruby
 describe App do
-  let(:url) { 'https://your_route.com/graphql' }
-  let(:client) { Graphlient::Client.new(url, schema_path: 'you_dumped_schema_path.json' ) }
-  let(:query) {
+  let(:url) { 'http://graph.biz/graphql' }
+  let(:client) { Graphlient::Client.new(url, schema_path: 'spec/support/fixtures/schema.json') }
+  let(:query) do
     <<~GRAPHQL
-      query {
-        user{
+      query{
+        invoice(id: 42) {
           id
-          metadata{
-            totalPages
-            totalCount
-          }
+          feeInCents
         }
       }
     GRAPHQL
-  }
-  let(:json_response){
-    { 
-      "data" => {
-        "user" => {
-          "id" => "63d2d9f1-cf3b-4642-be69-e659bd415b80",
-          "metadata" => {
-            "totalPages" => 60,
-            "totalCount" => 1497,
-            }
-          }
+  end
+  let(:json_response) do
+    {
+      'data' => {
+        'invoice' => {
+          'id' => '42',
+          'feeInCents' => 2000
         }
-      }.to_json
-  }
+      }
+    }.to_json
+  end
 
   before do
     stub_request(:post, url).to_return(
@@ -429,20 +423,14 @@ describe App do
     )
   end
 
-  it 'responds ok when querying data' do
+  it 'returns the expected data' do
     response = client.query(query)
     expect(response.data).to be_truthy
-    expect(response.data.user.id).to be_truthy
-    expect(response.data.user.metadata).to be_truthy
-    expect(response.data.user.metadata.total_pages).to eq 60
-    expect(response.data.user.metadata.total_count).to eq 1497
+    expect(response.data.invoice.id).to eq('42')
+    expect(response.data.invoice.fee_in_cents).to eq(2000)
   end
 end
 ```
-
-**Notes**
-1. To get this working drop your schema first `see` [Schema storing and loading on disk](#schema-storing-and-loading-on-disk)
-2. Object properties camel cased such as `totalPage` should be accessed as `total_page` (snake case)
 
 ## License
 
