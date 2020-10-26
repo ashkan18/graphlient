@@ -2,6 +2,7 @@
 
 * Your contribution here.
 * [#79](https://github.com/ashkan18/graphlient/pull/79): Added client testing docs - [@GabrielDzul](https://github.com/GabrielDzul).
+* [#80](https://github.com/ashkan18/graphlient/pull/80): Add truffleruby head to ci - [@gogainda](https://github.com/gogainda).
 
 ### 0.4.0 (5/22/2020)
 
