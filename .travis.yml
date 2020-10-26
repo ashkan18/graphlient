@@ -3,6 +3,12 @@ language: ruby
 cache: bundler
 
 rvm:
+  - 2.3.6
+  - 2.4.3
+  - 2.5.0
+  - ruby-head
+  - jruby-9.1.16.0
+  - jruby-head
   - truffleruby-head
 
 before_install:
