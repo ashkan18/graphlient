@@ -91,7 +91,7 @@ describe Graphlient::Client do
         expect do
           client.execute(query, id: '42')
         end.to raise_error Graphlient::Errors::GraphQLError do |e|
-          expect(e.to_s).to eq 'Variable id of type Int was provided invalid value'
+          expect(e.to_s).to eq 'Variable $id of type Int was provided invalid value'
         end
       end
 
@@ -223,7 +223,7 @@ describe Graphlient::Client do
             end
           end
         end.to raise_error Graphlient::Errors::GraphQLError,
-                           'Variable input of type CreateInvoiceInput! was provided invalid value'
+                           'Variable $input of type CreateInvoiceInput! was provided invalid value'
       end
 
       it 'returns a response from a query' do
@@ -272,7 +272,7 @@ describe Graphlient::Client do
             end
           end
         end.to raise_error Graphlient::Errors::GraphQLError,
-                           'Variable input of type CreateInvoiceInput! was provided invalid value for feeInCents (Expected value to not be null)'
+                           'Variable $input of type CreateInvoiceInput! was provided invalid value for feeInCents (Expected value to not be null)'
       end
     end
   end
