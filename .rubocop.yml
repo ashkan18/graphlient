@@ -1,3 +1,9 @@
+AllCops:
+  TargetRubyVersion: 2.3
+
+Lint/SplatKeywordArguments:
+  Enabled: false
+
 Style/FrozenStringLiteralComment:
   Enabled: false
 

@@ -3,9 +3,9 @@ language: ruby
 cache: bundler
 
 rvm:
-  - 2.3.6
-  - 2.4.3
   - 2.5.0
+  - 2.7.2
+  - 3.0.0
   - ruby-head
   - jruby-9.1.16.0
   - jruby-head
@@ -15,7 +15,7 @@ before_install:
 
 matrix:
   include:
-    - rvm: 2.3.6
+    - rvm: 2.7.2
       script:
         - bundle exec danger
   allow_failures:

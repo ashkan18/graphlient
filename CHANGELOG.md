@@ -1,6 +1,7 @@
 ### 0.5.0 (Next)
 
 * Your contribution here.
+* [#81](https://github.com/ashkan18/graphlient/pull/81): Make graphlient run on ruby 3.0 - [@Burgestrand](https://github.com/Burgestrand).
 * [#79](https://github.com/ashkan18/graphlient/pull/79): Added client testing docs - [@GabrielDzul](https://github.com/GabrielDzul).
 
 ### 0.4.0 (5/22/2020)

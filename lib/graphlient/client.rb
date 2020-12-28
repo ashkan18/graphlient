@@ -22,7 +22,7 @@ module Graphlient
       query_params[:context] = @options if @options
       query_params[:variables] = variables if variables
       query = client.parse(query) if query.is_a?(String)
-      rc = client.query(query, query_params)
+      rc = client.query(query, **query_params)
       raise Graphlient::Errors::GraphQLError, rc if rc.errors.any?
       # see https://github.com/github/graphql-client/pull/132
       # see https://github.com/exAspArk/graphql-errors/issues/2

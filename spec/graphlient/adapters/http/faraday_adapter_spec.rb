@@ -104,7 +104,9 @@ describe Graphlient::Adapters::HTTP::FaradayAdapter do
       stub_request(:post, url).to_raise(Faraday::TimeoutError.new(Net::ReadTimeout.new(error_message)))
     end
     it 'raises a Graphlient Timeout' do
-      expect { client.schema }.to raise_error(Graphlient::Errors::TimeoutError, error_message)
+      expect { client.schema }.to raise_error(Graphlient::Errors::TimeoutError) { |error|
+        expect(error.message).to include(error_message)
+      }
     end
   end
 end
