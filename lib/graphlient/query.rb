@@ -2,6 +2,7 @@ module Graphlient
   class Query
     SCALAR_TYPES = {
       int: 'Int',
+      big_int: 'BigInt',
       float: 'Float',
       string: 'String',
       boolean: 'Boolean'
