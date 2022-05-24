@@ -15,6 +15,10 @@ class Query < GraphQL::Schema::Object
     argument :id, Integer, required: false
   end
 
+  field :some_invoices, [InvoiceType], null: true do
+    description 'List of invoices'
+  end
+
   def invoice(id: nil)
     return nil if id.nil?
     OpenStruct.new(
@@ -31,5 +35,13 @@ class Query < GraphQL::Schema::Object
     execution_errors.add(GraphQL::ExecutionError.new('Execution Error'))
 
     invoice(id: id)
+  end
+
+  def some_invoices
+    [
+      OpenStruct.new(id: 0, fee_in_cents: 20_000),
+      OpenStruct.new(id: 1, fee_in_cents: 20_000),
+      OpenStruct.new(id: 2, fee_in_cents: 20_000)
+    ]
   end
 end

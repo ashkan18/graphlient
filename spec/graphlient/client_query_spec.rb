@@ -91,6 +91,18 @@ describe Graphlient::Client do
         GRAPHQL
       end
 
+      let(:partial_success_query) do
+        <<-GRAPHQL
+          query {
+            someInvoices {
+              id
+              feeInCents
+              createdAt
+            }
+          }
+        GRAPHQL
+      end
+
       it '#execute' do
         response = client.execute(query, id: 42)
         invoice = response.data.invoice
@@ -126,6 +138,14 @@ describe Graphlient::Client do
         expect do
           client.execute(not_null_query, id: 42)
         end.to raise_error Graphlient::Errors::GraphQLError do |e|
+          expect(e.response).to be_a GraphQL::Client::Response
+        end
+      end
+
+      it 'fails with a partial error response' do
+        expect do
+          client.execute(partial_success_query)
+        end.to raise_error Graphlient::Errors::ExecutionError do |e|
           expect(e.response).to be_a GraphQL::Client::Response
         end
       end

@@ -1,6 +1,7 @@
 ### 0.6.0 (Next)
 * Your contribution here.
 
+* [#87](https://github.com/ashkan18/graphlient/pull/87): Raised `ExecutionError` with partial error response - [@QQism](https://github.com/QQism).
 * [#90](https://github.com/ashkan18/graphlient/pull/90): Added support for Ruby 3.1 - [@QQism](https://github.com/QQism).
 * [#90](https://github.com/ashkan18/graphlient/pull/90): Dropped support for Ruby 2.5 - [@QQism](https://github.com/QQism).
 * [#91](https://github.com/ashkan18/graphlient/pull/91): Update GHA for `danger` with right permissions - [@QQism](https://github.com/QQism).
