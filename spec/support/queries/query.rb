@@ -10,6 +10,11 @@ class Query < GraphQL::Schema::Object
     argument :id, Integer, required: false
   end
 
+  field :execution_error_invoice, InvoiceType, null: false, extras: [:execution_errors] do
+    description 'Find invoice'
+    argument :id, Integer, required: false
+  end
+
   def invoice(id: nil)
     return nil if id.nil?
     OpenStruct.new(
@@ -20,5 +25,11 @@ class Query < GraphQL::Schema::Object
 
   def not_null_invoice(*)
     nil
+  end
+
+  def execution_error_invoice(id: nil, execution_errors:)
+    execution_errors.add(GraphQL::ExecutionError.new('Execution Error'))
+
+    invoice(id: id)
   end
 end
