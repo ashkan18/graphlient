@@ -80,6 +80,17 @@ describe Graphlient::Client do
         GRAPHQL
       end
 
+      let(:execution_error_query) do
+        <<-GRAPHQL
+          query($id: Int) {
+            executionErrorInvoice(id: $id) {
+              id
+              feeInCents
+            }
+          }
+        GRAPHQL
+      end
+
       it '#execute' do
         response = client.execute(query, id: 42)
         invoice = response.data.invoice
@@ -97,10 +108,9 @@ describe Graphlient::Client do
 
       it 'fails on an execution error' do
         expect do
-          allow(OpenStruct).to receive(:new).and_raise StandardError, 'Unexpected error.'
-          client.execute(query, id: 42)
+          client.execute(execution_error_query, id: 42)
         end.to raise_error Graphlient::Errors::ExecutionError do |e|
-          expect(e.to_s).to eq 'invoice: Unexpected error.'
+          expect(e.to_s).to eq 'executionErrorInvoice: Execution Error'
         end
       end
 

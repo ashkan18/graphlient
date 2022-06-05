@@ -1,0 +1,29 @@
+name: CI
+
+on: push
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ contains(fromJSON('["2.5.0", "ruby-head", "jruby-9.1", "jruby-head"]'), matrix.ruby-version) }}
+    strategy:
+      matrix:
+        ruby-version:
+          - 2.5.0
+          - 2.7.2
+          - 3.0.0
+          - ruby-head
+          - jruby-9.1.17
+          - jruby-head
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+        bundler-cache: true
+    - name: Run tests
+      run: bundle exec rspec spec/

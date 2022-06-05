@@ -1,3 +1,4 @@
+require_relative '../types/invoice_type'
 class CreateInvoice < GraphQL::Schema::RelayClassicMutation
   null true
 
