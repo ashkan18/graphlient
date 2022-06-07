@@ -1,6 +1,7 @@
 ### 0.6.0 (Next)
 * Your contribution here.
 
+* [#91](https://github.com/ashkan18/graphlient/pull/91): Update GHA for `danger` with right permissions - [@QQism](https://github.com/QQism).
 * [#89](https://github.com/ashkan18/graphlient/pull/89): Replace Travis CI with Github Actions - [@QQism](https://github.com/QQism).
 
 ### 0.5.0 (12/28/2020)
