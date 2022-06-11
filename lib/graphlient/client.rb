@@ -67,7 +67,7 @@ module Graphlient
     end
 
     def errors_in_result?(response)
-      response.data && response.data.errors && response.data.errors.any?
+      response.data && response.data.errors && response.data.errors.all.any?
     end
   end
 end
