@@ -1,3 +1,7 @@
+### 0.6.1 (Next)
+
+* Your contribution here.
+
 ### 0.6.0 (2022/06/11)
 
 * [#87](https://github.com/ashkan18/graphlient/pull/87): Raised `ExecutionError` with partial error response - [@QQism](https://github.com/QQism).
