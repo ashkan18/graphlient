@@ -89,8 +89,7 @@ describe Graphlient::Adapters::HTTP::FaradayAdapter do
     end
 
     specify do
-      expected_error_message = "Connection refused - #{error_message}"
-
+      expected_error_message = "No connection could be made because the target machine actively refused it. - #{error_message}"
       expect { client.schema }.to raise_error(Graphlient::Errors::ConnectionFailedError, expected_error_message)
     end
   end

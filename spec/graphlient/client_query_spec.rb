@@ -25,6 +25,43 @@ describe Graphlient::Client do
         invoice = response.data.invoice
         expect(invoice.id).to eq '10'
       end
+
+      context 'with fragment' do
+        let(:invoice_fragment) do
+          client.parse <<~'GRAPHQL'
+            fragment on Invoice {
+              id
+              feeInCents
+            }
+          GRAPHQL
+        end
+
+        let(:invoice_fragment_const) do
+          stub_const('Graphlient::InvoiceFragment', invoice_fragment)
+        end
+
+        let(:query) do
+          invoice_fragment_const
+          client.parse do
+            query do
+              invoice(id: 10) do
+                ___Graphlient__InvoiceFragment
+              end
+            end
+          end
+        end
+
+        it '#parse' do
+          expect(query).to be_a GraphQL::Client::OperationDefinition
+        end
+
+        it '#execute' do
+          response = client.execute(query)
+          invoice = response.data.invoice
+          fragment = invoice_fragment.new(invoice)
+          expect(fragment.id).to eq '10'
+        end
+      end
     end
 
     context 'parameterized query' do

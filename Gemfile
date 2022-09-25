@@ -9,7 +9,7 @@ group :development, :test do
 end
 
 group :development do
-  gem 'byebug', platform: :ruby
+  gem 'byebug', platform: %i[ruby x64_mingw]
   gem 'danger-changelog', '~> 0.2.1'
   gem 'rubocop', '0.56.0'
 end
