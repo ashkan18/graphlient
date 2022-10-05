@@ -1,5 +1,4 @@
 require 'faraday'
-require 'faraday_middleware'
 
 module Graphlient
   module Adapters

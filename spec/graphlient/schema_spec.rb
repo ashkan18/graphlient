@@ -10,7 +10,10 @@ describe Graphlient::Schema do
     let!(:introspection_query_request) do
       stub_request(:post, url)
         .with(body: /query IntrospectionQuery/)
-        .to_return(body: DummySchema.execute(GraphQL::Introspection::INTROSPECTION_QUERY).to_json)
+        .to_return(
+          body: DummySchema.execute(GraphQL::Introspection::INTROSPECTION_QUERY).to_json,
+          headers: { 'Content-Type' => 'application/json' }
+        )
     end
 
     context 'when schema path is not given' do

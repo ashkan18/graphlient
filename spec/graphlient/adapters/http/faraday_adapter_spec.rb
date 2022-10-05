@@ -19,8 +19,8 @@ describe Graphlient::Adapters::HTTP::FaradayAdapter do
       expect(client.http.connection.builder.handlers).to eq(
         [
           Faraday::Response::RaiseError,
-          FaradayMiddleware::EncodeJson,
-          FaradayMiddleware::ParseJson
+          Faraday::Request::Json,
+          Faraday::Response::Json
         ]
       )
     end
@@ -65,7 +65,8 @@ describe Graphlient::Adapters::HTTP::FaradayAdapter do
     before do
       stub_request(:post, url).to_return(
         status: 200,
-        body: DummySchema.execute(GraphQL::Introspection::INTROSPECTION_QUERY).to_json
+        body: DummySchema.execute(GraphQL::Introspection::INTROSPECTION_QUERY).to_json,
+        headers: { 'Content-Type' => 'application/json' }
       )
     end
 
