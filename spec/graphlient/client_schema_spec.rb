@@ -7,13 +7,23 @@ describe Graphlient::Client do
 
   describe '#schema' do
     before do
-      stub_request(:post, url)
-        .to_return(body: DummySchema.execute(GraphQL::Introspection::INTROSPECTION_QUERY).to_json)
+      stub_request(:post, url).to_return(
+        body: DummySchema.execute(GraphQL::Introspection::INTROSPECTION_QUERY).to_json,
+        headers: { 'Content-Type' => 'application/json' }
+      )
     end
 
     context 'when server returns error' do
       before do
-        stub_request(:post, url).to_return(status: 500, body: { errors: [{ message: 'test message', extensions: { code: 'SOMETHING', timestamp: Time.now } }] }.to_json)
+        stub_request(:post, url).to_return(
+          status: 500,
+          body: {
+            errors: [
+              { message: 'test message', extensions: { code: 'SOMETHING', timestamp: Time.now } }
+            ]
+          }.to_json,
+          headers: { 'Content-Type' => 'application/json' }
+        )
       end
 
       it 'fails with an exception' do
