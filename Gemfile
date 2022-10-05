@@ -16,6 +16,7 @@ group :development do
 end
 
 group :test do
+  gem 'faraday-rack', '~> 2.0'
   gem 'graphql', '~> 1.9'
   gem 'graphql-errors'
   gem 'rack-parser'
@@ -25,5 +26,4 @@ group :test do
   gem 'sinatra'
   gem 'vcr'
   gem 'webmock'
-  gem 'faraday-rack', '~> 2.0'
 end
