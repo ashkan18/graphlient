@@ -1,6 +1,6 @@
-### 0.6.1 (Next)
+### 0.7.0 (Next)
 
-* Your contribution here.
+* [#95](https://github.com/ashkan18/graphlient/pull/95): Upgrade faraday dependency to version 2 - [@kirillkaiumov](https://github.com/kirillkaiumov).
 
 ### 0.6.0 (2022/06/11)
 
