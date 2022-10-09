@@ -2,4 +2,5 @@ source 'https://rubygems.org'
 
 group :test do
   gem 'danger-toc', '~> 0.2.0', require: false
+  gem 'danger-changelog', '~> 0.6.0'
 end
