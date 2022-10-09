@@ -27,7 +27,8 @@ describe 'App' do
   before do
     stub_request(:post, url).to_return(
       status: 200,
-      body: json_response
+      body: json_response,
+      headers: { 'Content-Type' => 'application/json' }
     )
   end
 
