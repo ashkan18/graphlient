@@ -16,6 +16,4 @@ Gem::Specification.new do |s|
   s.summary = 'A friendlier Ruby client for consuming GraphQL-based APIs.'
   s.add_dependency 'faraday', '~> 2.0'
   s.add_dependency 'graphql-client'
-  s.add_runtime_dependency 'danger', '~> 8.0.0'
-  s.add_runtime_dependency 'danger-changelog', '~> 0.6.1'
 end

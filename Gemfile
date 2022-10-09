@@ -10,9 +10,7 @@ end
 
 group :development do
   gem 'byebug', platform: :ruby
-  # TODO: re-enable when `danger` supports faraday v2.0 https://github.com/danger/danger/issues/1349
   gem 'danger-changelog', '~> 0.6.0'
-  gem 'slack-ruby-danger', '~> 0.2.0'
   gem 'rubocop', '0.56.0'
 end
 
