@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-changelog.check
+danger.import_dangerfile(gem: 'slack-ruby-danger')
