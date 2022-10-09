@@ -5,6 +5,21 @@
 
 A friendlier Ruby client for consuming GraphQL-based APIs. Built on top of your usual [graphql-client](https://github.com/github/graphql-client), but with better defaults, more consistent error handling, and using the [faraday](https://github.com/lostisland/faraday) HTTP client.
 
+# Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Schema storing and loading on disk](#schema-storing-and-loading-on-disk)
+  - [Error Handling](#error-handling)
+  - [Executing Parameterized Queries and Mutations](#executing-parameterized-queries-and-mutations)
+  - [Parse and Execute Queries Separately](#parse-and-execute-queries-separately)
+  - [Dynamic vs. Static Queries](#dynamic-vs-static-queries)
+  - [Generate Queries with Graphlient::Query](#generate-queries-with-graphlientquery)
+  - [Create API Client Classes with Graphlient::Extension::Query](#create-api-client-classes-with-graphlientextensionquery)
+  - [Swapping the HTTP Stack](#swapping-the-http-stack)
+  - [Testing with Graphlient and RSpec](#testing-with-graphlient-and-rspec)
+-  [License](#license)
+
 ## Installation
 
 Add the following line to your Gemfile.
