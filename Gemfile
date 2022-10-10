@@ -10,7 +10,6 @@ end
 
 group :development do
   gem 'byebug', platform: :ruby
-  gem 'danger-changelog', '~> 0.6.0'
   gem 'rubocop', '0.56.0'
 end
 
