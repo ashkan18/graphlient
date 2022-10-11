@@ -1,6 +1,7 @@
-
-### 0.7.0 (Next)
+### (Next)
 * Your contribution here.
+
+### 0.7.0 (2022/10/11)
 * [#98](https://github.com/ashkan18/graphlient/pull/98): Bring back danger checks and improve them - [@ashkan18](https://github.com/ashkan18).
 * [#94](https://github.com/ashkan18/graphlient/pull/94): Enabled fragments - [@rellampec](https://github.com/rellampec).
 * [#95](https://github.com/ashkan18/graphlient/pull/95): Upgrade faraday dependency to version 2 - [@kirillkaiumov](https://github.com/kirillkaiumov).
