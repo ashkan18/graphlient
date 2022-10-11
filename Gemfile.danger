@@ -1,0 +1,5 @@
+source 'https://rubygems.org'
+
+group :test do
+  gem 'danger-changelog', '~> 0.6.0'
+end

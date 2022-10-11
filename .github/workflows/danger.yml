@@ -5,6 +5,8 @@ on: pull_request
 jobs:
   danger:
     runs-on: ubuntu-latest
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/Gemfile.danger
     steps:
     - uses: actions/checkout@v3
       with:
