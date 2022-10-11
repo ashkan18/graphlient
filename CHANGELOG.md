@@ -1,6 +1,6 @@
-### 0.6.1 (Next)
+### 0.7.0 (Next)
 
-* Your contribution here.
+* [#94](https://github.com/ashkan18/graphlient/pull/94): Enabled fragments via constant convention usage (i.e. `___Human__Fragment`) to expose the parsing of the actual fragment constant to the back-end gem ([`GraphQL Client`](https://github.com/github/graphql-client#defining-queries) feature.
 
 ### 0.6.0 (2022/06/11)
 

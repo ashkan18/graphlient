@@ -300,6 +300,62 @@ query.to_s
 # "\nquery {\n  invoice(id: 10){\n    line_items\n    }\n  }\n"
 ```
 
+### Use of Fragments
+
+[Fragments](https://github.com/github/graphql-client#defining-queries) should be referred by constant:
+
+```ruby
+module Fragments
+  Invoice = client.parse <<~'GRAPHQL'
+    fragment on Invoice {
+      id
+      feeInCents
+    }
+  GRAPHQL
+end
+```
+
+`Graphlient` offers the syntax below to refer to the original constant:
+  * Triple underscore `___` to refer to the fragment
+  * Double underscore `__` for namespace separator
+
+In this example, `Fragments::Invoice` would be referred as follows:
+
+```ruby
+invoice_query = client.parse do
+  query do
+    invoice(id: 10) do
+      id
+      ___Graphlient__InvoiceFragment
+    end
+  end
+end
+```
+
+The wrapped response only allows access to fields that have been explicitly asked for.
+In this example, while `id` has been referenced directly in the main query, `feeInCents` has been spread via fragment and trying to access it in the original wrapped response will throw [`GraphQL::Client::ImplicitlyFetchedFieldError`](https://github.com/github/graphql-client/blob/master/guides/implicitly-fetched-field-error.md) (to prevent data leaks between components).
+
+```ruby
+response = client.execute(invoice_query)
+result = response.data.invoice
+result.to_h
+# {"id" => 10, "feeInCents"=> 20000}
+result.id
+# 10
+result.fee_in_cents
+# raises GraphQL::Client::ImplicitlyFetchedFieldError
+```
+
+`feeInCents` cannot be fetched directly from the main query, but from the fragment as shown below:
+
+```ruby
+invoice = Fragments::Invoice.new(result)
+invoice.id
+# 10
+invoice.fee_in_cents
+# 20000
+```
+
 ### Create API Client Classes with Graphlient::Extension::Query
 
 You can include `Graphlient::Extensions::Query` in your class. This will add a new `method_missing` method to your context which will be used to generate GraphQL queries.

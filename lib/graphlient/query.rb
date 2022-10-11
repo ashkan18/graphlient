@@ -9,13 +9,15 @@ module Graphlient
 
     ROOT_NODES = %w[query mutation subscription].freeze
 
+    FRAGMENT_DEFITION = /___(?<const>[A-Z][a-zA-Z0-9_]*(__[A-Z][a-zA-Z0-9_]*)*)/
+
     attr_accessor :query_str
 
     def initialize(&block)
       @indents = 0
       @query_str = ''
       @variables = []
-      instance_eval(&block)
+      evaluate(&block)
     end
 
     def method_missing(method_name, *args, &block)
@@ -39,7 +41,24 @@ module Graphlient
 
     private
 
+    def evaluate(&block)
+      @last_block = block || self
+      (@context ||= {})[@last_block] ||= @last_block.binding
+      instance_eval(&block)
+    end
+
+    def resolve_fragment_constant(value)
+      return nil unless (match = value.to_s.match(FRAGMENT_DEFITION))
+      raw_const = match[:const].gsub('__', '::')
+      @context[@last_block].eval(raw_const).tap do |const|
+        msg = "Expected constant #{raw_const} to be GraphQL::Client::FragmentDefinition. Given #{const.class}"
+        raise Graphlient::Errors::Error, msg unless const.is_a? GraphQL::Client::FragmentDefinition
+      end
+    end
+
     def append_node(node, args, arg_processor: nil, &block)
+      node = "...#{resolve_fragment_constant(node)}".to_sym if node.to_s.start_with?('___')
+
       # add field
       @query_str << "\n#{indent}#{node}"
       # add filter
@@ -49,7 +68,7 @@ module Graphlient
       if block_given?
         @indents += 1
         @query_str << '{'
-        instance_eval(&block)
+        evaluate(&block)
         @query_str << '}'
         @indents -= 1
       end
