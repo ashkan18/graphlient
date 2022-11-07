@@ -341,7 +341,7 @@ invoice_query = client.parse do
   query do
     invoice(id: 10) do
       id
-      ___Graphlient__InvoiceFragment
+      ___Fragments__Invoice
     end
   end
 end
