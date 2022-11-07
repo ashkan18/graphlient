@@ -1,5 +1,6 @@
 ### (Next)
 * Your contribution here.
+* [#102](https://github.com/ashkan18/graphlient/pull/102): Update ci to test latest jruby - [@ashkan18](https://github.com/ashkan18).
 
 ### 0.7.0 (2022/10/11)
 * [#98](https://github.com/ashkan18/graphlient/pull/98): Bring back danger checks and improve them - [@ashkan18](https://github.com/ashkan18).
