@@ -1,5 +1,6 @@
 ### (Next)
 * Your contribution here.
+* [#106](https://github.com/ashkan18/graphlient/pull/106): Add 3.2 to the list of ruby ci versions - [@igor-drozdov](https://github.com/igor-drozdov).
 * [#102](https://github.com/ashkan18/graphlient/pull/102): Update ci to test latest jruby - [@ashkan18](https://github.com/ashkan18).
 
 ### 0.7.0 (2022/10/11)
