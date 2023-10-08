@@ -2,9 +2,12 @@ module Graphlient
   class Client
     attr_accessor :uri, :options
 
+    class InvalidConfigurationError < StandardError; end
+
     def initialize(url, options = {}, &_block)
       @url = url
       @options = options.dup
+      raise_error_if_invalid_configuration!
       yield self if block_given?
     end
 
@@ -51,10 +54,14 @@ module Graphlient
     end
 
     def schema
-      @schema ||= Graphlient::Schema.new(http, schema_path)
+      @schema ||= options[:schema] || Graphlient::Schema.new(http, schema_path)
     end
 
     private
+
+    def raise_error_if_invalid_configuration!
+      raise InvalidConfigurationError, 'schema_path and schema cannot both be provided' if options.key?(:schema_path) && options.key?(:schema)
+    end
 
     def schema_path
       return options[:schema_path].to_s if options[:schema_path]
