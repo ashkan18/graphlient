@@ -51,5 +51,25 @@ describe Graphlient::Client do
         expect(client.schema.path).to eq 'config/schema.json'
       end
     end
+
+    context 'when preloaded schema is provided' do
+      let(:schema) { Graphlient::Schema.new(url, 'spec/support/fixtures/invoice_api.json') }
+      let(:client) { described_class.new(url, schema: schema) }
+
+      it 'returns the passed in schema' do
+        expect(client.schema).not_to be_nil
+        expect(client.schema).to eq(schema)
+      end
+    end
+
+    context 'when and a schema and a schema path are provided' do
+      let(:schema) { Graphlient::Schema.new(url, 'spec/support/fixtures/invoice_api.json') }
+      let(:client) { described_class.new(url, schema: schema, schema_path: 'spec/support/fixtures/invoice_api.json') }
+
+      it 'raises an invalid configuration error' do
+        expect { client }.to raise_error(Graphlient::Client::InvalidConfigurationError,
+                                         /schema_path and schema cannot both be provided/)
+      end
+    end
   end
 end

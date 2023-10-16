@@ -9,7 +9,8 @@ A friendlier Ruby client for consuming GraphQL-based APIs. Built on top of your 
 
 - [Installation](#installation)
 - [Usage](#usage)
-  - [Schema storing and loading on disk](#schema-storing-and-loading-on-disk)
+  - [Schema Storing and Loading on Disk](#schema-storing-and-loading-on-disk)
+  - [Preloading Schema Once](#preloading-schema-once)
   - [Error Handling](#error-handling)
   - [Executing Parameterized Queries and Mutations](#executing-parameterized-queries-and-mutations)
   - [Parse and Execute Queries Separately](#parse-and-execute-queries-separately)
@@ -138,6 +139,30 @@ To reduce requests to graphql API you can cache schema:
 ```ruby
 client = Client.new(url, schema_path: 'config/your_graphql_schema.json')
 client.schema.dump! # you only need to call this when graphql schema changes
+```
+
+### Preloading Schema Once
+
+Even if caching the schema on disk, instantiating `Graphlient::Client` often can be both time and memory intensive due to loading the schema for each instance. This is especially true if the schema is a large file. To get around these performance issues, instantiate your schema once and pass it in as a configuration option.
+
+One time in an initializer
+
+```ruby
+schema = Graphlient::Schema.new(
+  'https://graphql.foo.com/graphql', 'lib/graphql_schema_foo.json'
+)
+```
+
+Pass in each time you initialize a client
+
+```
+client = Graphlient::Client.new(
+  'https://graphql.foo.com/graphql',
+  schema: schema,
+  headers: {
+    'Authorization' => 'Bearer 123',
+  }
+)
 ```
 
 ### Error Handling
