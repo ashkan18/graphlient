@@ -75,6 +75,61 @@ describe Graphlient::Adapters::HTTP::FaradayAdapter do
     end
   end
 
+  context 'a non-error response without an appropriate JSON header' do
+    let(:url) { 'http://example.com/graphql' }
+    let(:headers) { { 'Content-Type' => 'application/notjson' } }
+    let(:client) { Graphlient::Client.new(url) }
+    let(:response_headers) { { 'Content-Type' => 'application/notjson' } }
+
+    context 'when the response body is valid JSON' do
+      before do
+        stub_request(:post, url).to_return(
+          status: 200,
+          headers: response_headers,
+          body: DummySchema.execute(GraphQL::Introspection::INTROSPECTION_QUERY).to_json
+        )
+      end
+
+      it 'retrieves schema' do
+        expect(client.schema).to be_a Graphlient::Schema
+      end
+    end
+
+    context 'when the response body is not valid JSON' do
+      before do
+        stub_request(:post, url).to_return(
+          status: 200,
+          headers: response_headers,
+          body: ''
+        )
+      end
+
+      it 'raises Graphlient::Errors::ServerError' do
+        expect { client.schema }.to raise_error(Graphlient::Errors::ServerError) { |error|
+          expect(error.message).to include('Failed to parse response body as JSON')
+        }
+      end
+    end
+
+    context 'when the Faraday response body object is not a type we expect from Faraday' do
+      before do
+        stub_request(:post, url).to_return(
+          status: 200,
+          headers: response_headers
+        )
+      end
+
+      it 'raises Graphlient::Errors::ClientError' do
+        mock_response = double('response', body: nil)
+        allow(client.http.connection).to receive(:post).and_return(mock_response)
+
+        expect { client.schema }.to raise_error(Graphlient::Errors::ClientError) { |error|
+          expect(error.message).to include "Unexpected response body type 'NilClass'"
+        }
+      end
+    end
+  end
+
   context 'Failed to open TCP connection error' do
     let(:url) { 'http://example.com/graphql' }
     let(:client) { Graphlient::Client.new(url) }
