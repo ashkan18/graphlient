@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/graphlient.svg)](https://badge.fury.io/rb/graphlient)
 [![Build Status](https://github.com/ashkan18/graphlient/actions/workflows/ci.yml/badge.svg)](https://github.com/ashkan18/graphlient/actions/workflows/ci.yml)
 
-A friendlier Ruby client for consuming GraphQL-based APIs. Built on top of your usual [graphql-client](https://github.com/github/graphql-client), but with better defaults, more consistent error handling, and using the [faraday](https://github.com/lostisland/faraday) HTTP client.
+A friendlier Ruby client for consuming GraphQL-based APIs. Built on top of your usual [graphql-client](https://github.com/github-community-projects/graphql-client), but with better defaults, more consistent error handling, and using the [faraday](https://github.com/lostisland/faraday) HTTP client.
 
 # Table of Contents
 
