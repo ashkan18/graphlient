@@ -240,6 +240,21 @@ client.query(input: { fee_in_cents: 12_345 }) do
 end
 ```
 
+### Files support
+
+You can send files while using `FaradayMultipartAdapter`.
+
+```ruby
+client = Graphlient::Client.new('example.com/graphql',
+  http: Graphlient::Adapters::HTTP::FaradayMultipartAdapter
+)
+
+file = File.read('example.txt')
+client.mutation(input: file) # single file
+client.mutation(input: [file]) # files as an array
+client.mutation(input: [{ val: file }]) # files in nested hash
+```
+
 ### Parse and Execute Queries Separately
 
 You can `parse` and `execute` queries separately with optional variables. This is highly recommended as parsing a query and validating a query on every request adds performance overhead. Parsing queries early allows validation errors to be discovered before request time and avoids many potential security issues.
