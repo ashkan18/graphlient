@@ -18,6 +18,7 @@ jobs:
           - { ruby: "ruby-head", ignore: true }
           - { ruby: "jruby-9.3.9.0", ignore: true }
           - { ruby: "jruby-head", ignore: true }
+          - { ruby: "truffleruby-head", ignore: true }
     steps:
     - uses: actions/checkout@v3
     - name: Set up Ruby
