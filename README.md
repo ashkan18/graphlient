@@ -279,7 +279,7 @@ client.execute query, ids: [42]
 
 ### Dynamic vs. Static Queries
 
-Graphlient uses [graphql-client](https://github.com/github/graphql-client), which [recommends](https://github.com/github/graphql-client/blob/master/guides/dynamic-query-error.md) building queries as static module members along with dynamic variables during execution. This can be accomplished with graphlient the same way.
+Graphlient uses [graphql-client](https://github.com/github-community-projects/graphql-client), which [recommends](https://github.com/github-community-projects/graphql-client/blob/master/guides/dynamic-query-error.md) building queries as static module members along with dynamic variables during execution. This can be accomplished with graphlient the same way.
 
 Create a new instance of `Graphlient::Client` with a URL and optional headers.
 
