@@ -19,7 +19,7 @@ A friendlier Ruby client for consuming GraphQL-based APIs. Built on top of your 
   - [Create API Client Classes with Graphlient::Extension::Query](#create-api-client-classes-with-graphlientextensionquery)
   - [Swapping the HTTP Stack](#swapping-the-http-stack)
   - [Testing with Graphlient and RSpec](#testing-with-graphlient-and-rspec)
--  [License](#license)
+- [License](#license)
 
 ## Installation
 
@@ -46,7 +46,7 @@ client = Graphlient::Client.new('https://test-graphql.biz/graphql',
 ```
 
 | http_options  | default | type    |
-|---------------|---------|---------|
+| ------------- | ------- | ------- |
 | read_timeout  | nil     | seconds |
 | write_timeout | nil     | seconds |
 
@@ -216,7 +216,9 @@ client.query(ids: [42]) do
   end
 end
 ```
+
 Graphlient supports following Scalar types for parameterized queries by default:
+
 - `:id` maps to `ID`
 - `:boolean` maps to `Boolean`
 - `:float` maps to `Float`
@@ -243,7 +245,6 @@ end
 ### Parse and Execute Queries Separately
 
 You can `parse` and `execute` queries separately with optional variables. This is highly recommended as parsing a query and validating a query on every request adds performance overhead. Parsing queries early allows validation errors to be discovered before request time and avoids many potential security issues.
-
 
 ```ruby
 # parse a query, returns a GraphQL::Client::OperationDefinition
@@ -321,7 +322,7 @@ Execute the query.
 response = SWAPI::Client.execute(SWAPI::InvoiceQuery, id: 42)
 ```
 
-Note that in the example above the client is created with `allow_dynamic_queries: false` (only allow static queries), while graphlient defaults to `allow_dynamic_queries: true` (allow dynamic queries). This option is marked deprecated, but we're proposing to remove it and default it to `true` in [graphql-client#128](https://github.com/github/graphql-client/issues/128).
+Note that in the example above the client is created with `allow_dynamic_queries: false` (only allow static queries), while graphlient defaults to `allow_dynamic_queries: true` (allow dynamic queries). This option is marked deprecated, but we're proposing to remove it and default it to `true` in [graphql-client#128](https://github.com/github-community-projects/graphql-client/issues/128).
 
 ### Generate Queries with Graphlient::Query
 
@@ -342,7 +343,7 @@ query.to_s
 
 ### Use of Fragments
 
-[Fragments](https://github.com/github/graphql-client#defining-queries) should be referred by constant:
+[Fragments](https://github.com/github-community-projects/graphql-client#defining-queries) should be referred by constant:
 
 ```ruby
 module Fragments
@@ -373,7 +374,7 @@ end
 ```
 
 The wrapped response only allows access to fields that have been explicitly asked for.
-In this example, while `id` has been referenced directly in the main query, `feeInCents` has been spread via fragment and trying to access it in the original wrapped response will throw [`GraphQL::Client::ImplicitlyFetchedFieldError`](https://github.com/github/graphql-client/blob/master/guides/implicitly-fetched-field-error.md) (to prevent data leaks between components).
+In this example, while `id` has been referenced directly in the main query, `feeInCents` has been spread via fragment and trying to access it in the original wrapped response will throw [`GraphQL::Client::ImplicitlyFetchedFieldError`](https://github.com/github-community-projects/graphql-client/blob/master/guides/implicitly-fetched-field-error.md) (to prevent data leaks between components).
 
 ```ruby
 response = client.execute(invoice_query)
