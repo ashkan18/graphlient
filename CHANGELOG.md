@@ -1,5 +1,6 @@
 ### (Next)
 * Your contribution here.
+* Update graphql-client github repository links in README - [@th1988]
 
 ### 0.8.0 (2024/01/06)
 * [#110](https://github.com/ashkan18/graphlient/pull/110): Ensure correct Faraday JSON response body parsing with invalid response header - [@taylorthurlow](https://github.com/taylorthurlow).
