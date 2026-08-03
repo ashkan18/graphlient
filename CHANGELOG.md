@@ -1,5 +1,6 @@
 ### (Next)
 * Your contribution here.
+* [#120](https://github.com/ashkan18/graphlient/pull/120): Support changing headers between requests for all HTTP adapters - [@Guflly](https://github.com/Guflly).
 
 ### 0.9.0 (2026/08/03)
 * [#118](https://github.com/ashkan18/graphlient/pull/118): Correct `TimeoutError` inheritance and rescue documentation - [@oiahoon](https://github.com/oiahoon).

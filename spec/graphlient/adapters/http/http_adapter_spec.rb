@@ -33,6 +33,23 @@ describe Graphlient::Adapters::HTTP::HTTPAdapter do
       expect(client.http.connection.read_timeout).to eq(read_timeout)
     end
 
+    it 'uses updated client headers for the current request' do
+      request = stub_request(:post, url)
+                .with(headers: { 'Foo' => 'updated' })
+                .to_return(status: 200, body: '{"data":{}}')
+
+      client.options[:headers] = { 'Foo' => 'updated' }
+
+      client.http.execute(
+        document: double(to_query_string: 'query { viewer { id } }'),
+        operation_name: nil,
+        variables: {},
+        context: client.options
+      )
+
+      expect(request).to have_been_requested
+    end
+
     context 'when http_options contains invalid option' do
       let(:http_options) { { an_invalid_option: 'an invalid option' } }
 

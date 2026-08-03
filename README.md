@@ -55,6 +55,12 @@ client = Graphlient::Client.new('https://test-graphql.biz/graphql',
 | read_timeout  | nil     | seconds |
 | write_timeout | nil     | seconds |
 
+Headers can be changed between requests without rebuilding the client.
+
+```ruby
+client.options[:headers] = { 'Authorization' => 'Bearer 456' }
+```
+
 The schema is available automatically via `.schema`.
 
 ```ruby
